@@ -10,7 +10,7 @@ public interface AttendanceService {
 
          List<Attendance> getAttendance();
 
-         Attendance updateAttendance(int id, Attendance attendance);
+         Attendance updateAttendance(String email, Attendance attendance);
 
-         void deleteAttendance(int id);
+         void deleteAttendance(String email);
 }

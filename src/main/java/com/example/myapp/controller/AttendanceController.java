@@ -34,14 +34,14 @@ public class AttendanceController {
         return attendanceService.getAttendance();
     }
 
-    @PutMapping("/update/{attendance_id}")
-    public Attendance updateAttendance(@RequestBody Attendance employee, @PathVariable("attendance_id") int id) {
-        return attendanceService.updateAttendance(id, employee);
+    @PutMapping("/update/{attendance_email}")
+    public Attendance updateAttendance(@RequestBody Attendance employee, @PathVariable("attendance_email") String email) {
+        return attendanceService.updateAttendance(email, employee);
     }
 
-    @DeleteMapping("/delete/{attendance_id}")
-    public String deleteAttendance(@PathVariable("attendance_id") int id) {
-        attendanceService.deleteAttendance(id);
+    @DeleteMapping("/delete/{attendance_email}")
+    public String deleteAttendance(@PathVariable("attendance_email") String email) {
+        attendanceService.deleteAttendance(email);
         return "deleted succesfully.";
     }
 

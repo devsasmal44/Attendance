@@ -61,10 +61,11 @@ public class AttendanceExcelExporter {
         font.setBold(true);
         font.setFontHeight(16);
         style.setFont(font);
-        createCell(row, 0, "Attendance Id", style);
-        createCell(row, 1, "Attendance email", style);
-        createCell(row, 2, "Temperature", style);
-        createCell(row, 3, "Date", style);
+        createCell(row, 0, "Attendance email", style);
+        createCell(row, 1, "Temperature", style);
+        createCell(row,2,"Latitude",style);
+        createCell(row,3,"Longitude",style);
+        createCell(row, 4, "Date", style);
 
     }
 
@@ -79,9 +80,10 @@ public class AttendanceExcelExporter {
         for(Attendance atten:attendanceList) {
             Row row=sheet.createRow(rowCount++);
             int columnCount=0;
-            createCell(row, columnCount++, atten.getId(), style);
             createCell(row, columnCount++, atten.getEmail(), style);
             createCell(row, columnCount++, atten.getTemperature(), style);
+            createCell(row, columnCount++,atten.getLatitude(),style);
+            createCell(row, columnCount++,atten.getLatitude(),style);
             createCell(row, columnCount++, atten.getDate(), style);
         }
     }

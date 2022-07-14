@@ -27,8 +27,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public Attendance updateAttendance(int id, Attendance attendance) {
-        Optional<Attendance> findById = attendanceRepo.findById(id);
+    public Attendance updateAttendance(String email, Attendance attendance) {
+        Optional<Attendance> findById = attendanceRepo.findById(email);
         if (findById.isPresent()) {
             Attendance attendanceEntity = findById.get();
             if (attendance.getEmail() != null && !attendance.getEmail().isEmpty())
@@ -39,7 +39,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public void deleteAttendance(int id) {
-        attendanceRepo.deleteById(id);
+    public void deleteAttendance(String email) {
+        attendanceRepo.deleteById(email);
     }
 }
