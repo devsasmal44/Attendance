@@ -6,30 +6,25 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Attendance {
 
     private String email;
-    private double temperature;
-    private String latitude;
-    private String longitude;
-    private String qrcodeString;
+    private float temperature;
+    private double latitude;
+    private double longitude;
     private long timestamp;
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setTemperature(double temperature) {
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public void setQrcodeString(String qrcodeString) {
-        this.qrcodeString = qrcodeString;
     }
 
     public void setTimestamp(long timestamp) {
@@ -40,20 +35,16 @@ public class Attendance {
         return email;
     }
 
-    public double getTemperature() {
+    public float getTemperature() {
         return temperature;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
-    }
-
-    public String getQrcodeString() {
-        return qrcodeString;
     }
 
     public long getTimestamp() {
