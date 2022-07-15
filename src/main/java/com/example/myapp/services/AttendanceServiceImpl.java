@@ -26,20 +26,4 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceRepo.findAll();
     }
 
-    @Override
-    public Attendance updateAttendance(String email, Attendance attendance) {
-        Optional<Attendance> findById = attendanceRepo.findById(email);
-        if (findById.isPresent()) {
-            Attendance attendanceEntity = findById.get();
-            if (attendance.getEmail() != null && !attendance.getEmail().isEmpty())
-                attendanceEntity.setEmail(attendance.getEmail());
-            return attendanceRepo.save(attendanceEntity);
-        }
-        return null;
-    }
-
-    @Override
-    public void deleteAttendance(String email) {
-        attendanceRepo.deleteById(email);
-    }
 }
