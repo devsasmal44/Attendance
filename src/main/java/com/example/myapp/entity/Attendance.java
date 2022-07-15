@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
+import java.util.Date;
 
 @Document(collection = "attendance")
 public class Attendance {
@@ -12,8 +14,8 @@ public class Attendance {
     private double temperature;
     private String latitude;
     private String longitude;
-    private LocalDateTime date ;
-
+    private String qrcodeString;
+    private long timestamp;
 
     public void setEmail(String email) {
         this.email = email;
@@ -31,8 +33,12 @@ public class Attendance {
         this.longitude = longitude;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setQrcodeString(String qrcodeString) {
+        this.qrcodeString = qrcodeString;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getEmail() {
@@ -51,8 +57,12 @@ public class Attendance {
         return longitude;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getQrcodeString() {
+        return qrcodeString;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
     }
 
  }

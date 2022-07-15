@@ -18,8 +18,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/save")
-    public Employee saveEmployee(@RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    public void saveEmployee(@RequestBody Employee employee) {
+         employeeService.saveEmployee(employee);
     }
 
     @GetMapping("/list")

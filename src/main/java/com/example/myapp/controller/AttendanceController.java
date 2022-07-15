@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -24,25 +24,14 @@ public class AttendanceController {
     }
 
     @PostMapping("/save")
-    public Attendance saveAttendance(@RequestBody Attendance attendance) {
-        attendance.setDate( LocalDateTime.now());
-        return attendanceService.saveAttendance(attendance);
+    public void saveAttendance(@RequestBody Attendance attendance) {
+        attendance.setTimestamp(Instant.now().getEpochSecond());
+        attendanceService.saveAttendance(attendance);
     }
 
     @GetMapping("/list")
     public List<Attendance> getAttendance() {
         return attendanceService.getAttendance();
-    }
-
-    @PutMapping("/update/{attendance_email}")
-    public Attendance updateAttendance(@RequestBody Attendance employee, @PathVariable("attendance_email") String email) {
-        return attendanceService.updateAttendance(email, employee);
-    }
-
-    @DeleteMapping("/delete/{attendance_email}")
-    public String deleteAttendance(@PathVariable("attendance_email") String email) {
-        attendanceService.deleteAttendance(email);
-        return "deleted succesfully.";
     }
 
     @GetMapping("/export/excel")

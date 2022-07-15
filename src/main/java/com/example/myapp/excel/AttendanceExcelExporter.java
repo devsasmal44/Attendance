@@ -84,7 +84,7 @@ public class AttendanceExcelExporter {
             createCell(row, columnCount++, atten.getTemperature(), style);
             createCell(row, columnCount++,atten.getLatitude(),style);
             createCell(row, columnCount++,atten.getLatitude(),style);
-            createCell(row, columnCount++, atten.getDate(), style);
+            createCell(row, columnCount++, String.valueOf(atten.getTimestamp()), style);
         }
     }
 

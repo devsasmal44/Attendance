@@ -9,8 +9,4 @@ public interface AttendanceService {
          Attendance saveAttendance(Attendance attendance);
 
          List<Attendance> getAttendance();
-
-         Attendance updateAttendance(String email, Attendance attendance);
-
-         void deleteAttendance(String email);
 }
