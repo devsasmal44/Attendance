@@ -2,6 +2,8 @@ package com.example.myapp.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Document(collection = "attendance")
 public class Attendance {
 
@@ -10,6 +12,7 @@ public class Attendance {
     private double latitude;
     private double longitude;
     private long timestamp;
+    public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public void setEmail(String email) {
         this.email = email;

@@ -13,7 +13,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class AttendanceExcelExporter {
@@ -32,14 +31,16 @@ public class AttendanceExcelExporter {
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
         sheet.autoSizeColumn(columnCount);
         Cell cell=row.createCell(columnCount);
-        if(value instanceof Integer) {
-            cell.setCellValue((Integer) value);
-        }else if(value instanceof String) {
+        if(value instanceof String) {
             cell.setCellValue((String) value);
+        }else if(value instanceof Float) {
+            cell.setCellValue((Float) value);
+        }else if(value instanceof Double) {
+            cell.setCellValue((Double) value);
         }else if(value instanceof Double) {
             cell.setCellValue((Double) value);
         }else {
-            cell.setCellValue((LocalDateTime) value);
+            cell.setCellValue((Long) value);
         }
         cell.setCellStyle(style);
     }
