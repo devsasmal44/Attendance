@@ -24,11 +24,11 @@ public class QrCodeController {
     }
 
     @GetMapping ("/save")
-    public String saveQrcode() {
+    public Qrcode saveQrcode() {
         qrcode.setUniqueId(String.valueOf(UUID.randomUUID()));
         qrcode.setExpiryTime(qrcode.getExpiryTime());
         qrcode.setCurrentTime(Instant.now().getEpochSecond());
-        return "Qrcode saved";
+        return qrcodeService.saveQrcode(qrcode);
     }
 
     @GetMapping("/list")
@@ -41,6 +41,8 @@ public class QrCodeController {
     public String isUniqueIdExists() {
         String id = String.valueOf(attendance.qrString);
         if (qrcodeService.isUniqueIdExists(id)) {
+            Optional<Qrcode> optional = qrRepo.findById(id);
+            Qrcode qrResponse = optional.get();
             //if(>Instant.now().getEpochSecond())
                 return "Qrcode found";
             //else
