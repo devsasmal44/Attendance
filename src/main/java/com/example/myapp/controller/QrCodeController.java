@@ -24,11 +24,11 @@ public class QrCodeController {
     }
 
     @GetMapping ("/save")
-    public Qrcode saveQrcode() {
+    public String saveQrcode() {
         qrcode.setUniqueId(String.valueOf(UUID.randomUUID()));
         qrcode.setExpiryTime(qrcode.getExpiryTime());
         qrcode.setCurrentTime(Instant.now().getEpochSecond());
-        return qrcodeService.saveQrcode(qrcode);
+        return "Qrcode saved";
     }
 
     @GetMapping("/list")
