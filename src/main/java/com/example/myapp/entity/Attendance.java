@@ -12,6 +12,7 @@ public class Attendance {
     private double latitude;
     private double longitude;
     private long timestamp;
+    public String uniqueString;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public void setEmail(String email) {
@@ -34,6 +35,10 @@ public class Attendance {
         this.timestamp = timestamp;
     }
 
+    public void setUniqueString(String uniqueString) {
+        this.uniqueString = uniqueString;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -52,6 +57,10 @@ public class Attendance {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getUniqueString() {
+        return uniqueString;
     }
 
  }
