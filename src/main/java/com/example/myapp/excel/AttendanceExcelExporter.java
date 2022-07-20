@@ -1,6 +1,7 @@
 package com.example.myapp.excel;
 
 import com.example.myapp.entity.Attendance;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -14,6 +15,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class AttendanceExcelExporter {
     private XSSFWorkbook workbook;
@@ -84,8 +87,13 @@ public class AttendanceExcelExporter {
             createCell(row, columnCount++, atten.getEmail(), style);
             createCell(row, columnCount++, atten.getTemperature(), style);
             createCell(row, columnCount++,atten.getLatitude(),style);
-            createCell(row, columnCount++,atten.getLatitude(),style);
-            createCell(row, columnCount++, String.valueOf(atten.getTimestamp()), style);
+            createCell(row, columnCount++,atten.getLongitude(),style);
+            long instantTime=atten.getTimestamp();
+            Instant instant = Instant.ofEpochSecond(instantTime);
+            String result = instant.toString();
+            ZonedDateTime dateTime = ZonedDateTime.parse(result);
+            String dateTimeConverter = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
+            createCell(row, columnCount++, dateTimeConverter, style);
         }
     }
 
