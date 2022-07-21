@@ -4,11 +4,18 @@ import com.example.myapp.entity.Attendance;
 import com.example.myapp.excel.AttendanceExcelExporter;
 import com.example.myapp.repository.AttendanceRepo;
 import com.example.myapp.services.AttendanceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,6 +24,9 @@ public class AttendanceController {
 
     private AttendanceService attendanceService;
     private AttendanceRepo attendanceRepo;
+    
+    @Autowired
+    MongoOperations mongoOperations;
 
     AttendanceController(AttendanceService attendanceService, AttendanceRepo attendanceRepo){
         this.attendanceService =attendanceService;
@@ -26,12 +36,30 @@ public class AttendanceController {
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
+        attendance.setDates(String.valueOf(LocalDate.now()));
         attendanceService.saveAttendance(attendance);
     }
 
     @GetMapping("/list")
     public List<Attendance> getAttendance() {
         return attendanceService.getAttendance();
+    }
+    
+    @GetMapping("/check")
+    public List<Attendance> searchUser(){
+    	Query query = new Query();
+    	List<Criteria> criteria = new ArrayList<>();
+    	String datesCheck = String.valueOf(LocalDate.now()); 
+    	String emailCheck = "abc@gmail.com";
+    	criteria.add(Criteria.where("dates").is(datesCheck));
+    	criteria.add(Criteria.where("email").is(emailCheck));
+    	query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
+    	List<Attendance> attendance = mongoOperations.find(query, Attendance.class);
+    	/*if (attendance.isEmpty())
+    		return "Your can proceed with the attendance.";
+    	else 
+    		return "Your attendance is marked. Please login again tomorrow.";*/
+    	return attendance;
     }
 
     @GetMapping("/export/excel")
