@@ -20,7 +20,7 @@ public class Qrcode {
 
         this.uniqueId = String.valueOf(UUID.randomUUID());
         this.currentTime = Instant.now().getEpochSecond();
-        this.expiryTime = this.currentTime+(15*60);
+        this.expiryTime = this.currentTime+(2*60);
     }
 
     public void setUniqueId(String uniqueId) {
@@ -40,7 +40,7 @@ public class Qrcode {
     private void updateQr() {
         this.uniqueId = String.valueOf(UUID.randomUUID());
         this.currentTime = Instant.now().getEpochSecond();
-        this.expiryTime = this.currentTime+(2*60);
+        this.expiryTime = this.currentTime + (2*60);
 
     }
     public String getUniqueId() {
