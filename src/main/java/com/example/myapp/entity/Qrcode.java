@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Document(collection = "qr")
 public class Qrcode {
@@ -15,19 +16,38 @@ public class Qrcode {
     private long expiryTime;
     private long compareTime;
 
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
+    public Qrcode() {
+
+        this.uniqueId = String.valueOf(UUID.randomUUID());
+        this.currentTime = Instant.now().getEpochSecond();
+        this.expiryTime = this.currentTime+(15*60);
     }
 
+    public void setUniqueId(String uniqueId) {
+//        this.uniqueId =String.valueOf(UUID.randomUUID());
+    }
+
+
     public void setExpiryTime(long expiryTime) {
-        this.expiryTime = Instant.now().getEpochSecond() + 15*60;
+//        this.expiryTime = Instant.now().getEpochSecond() + 15*60;
     }
 
     public void setCurrentTime(long currentTime) {
-        this.currentTime = currentTime;
+//        this.currentTime = currentTime;
     }
 
+
+    private void updateQr() {
+        this.uniqueId = String.valueOf(UUID.randomUUID());
+        this.currentTime = Instant.now().getEpochSecond();
+        this.expiryTime = this.currentTime+(15*60);
+
+    }
     public String getUniqueId() {
+
+        if(Instant.now().getEpochSecond()>this.expiryTime) {
+            updateQr();
+        }
         return uniqueId;
     }
 

@@ -31,6 +31,11 @@ public class QrCodeController {
         return qrcodeService.saveQrcode(qrcode);
     }
 
+    @GetMapping("/uniqueId")
+    public String getUniqueId() {
+        return qrcode.getUniqueId();
+    }
+
     @GetMapping("/list")
     public List<Qrcode> getQrcode() {
         return qrcodeService.getQrcode();
