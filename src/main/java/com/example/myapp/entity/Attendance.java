@@ -2,6 +2,7 @@ package com.example.myapp.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Document(collection = "attendance")
@@ -12,6 +13,7 @@ public class Attendance {
     private double latitude;
     private double longitude;
     private long timestamp;
+    private String dates;
     public String uniqueString;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
@@ -33,6 +35,11 @@ public class Attendance {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+
+    public void setDates(String dates) {
+        this.dates = dates;
     }
 
     public void setUniqueString(String uniqueString) {
@@ -57,6 +64,10 @@ public class Attendance {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getDates() {
+        return dates;
     }
 
     public String getUniqueString() {
