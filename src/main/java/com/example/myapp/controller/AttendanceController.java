@@ -35,6 +35,7 @@ public class AttendanceController {
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
+        attendance.setDates(String.valueOf(LocalDate.now()));
         attendanceService.saveAttendance(attendance);
     }
 
