@@ -48,7 +48,7 @@ public class AttendanceController {
         Query query = new Query();
         List<Criteria> criteria = new ArrayList<>();
         String datesCheck = String.valueOf(LocalDate.now());
-        String emailCheck = "abc@gmail.com";
+        String emailCheck = "sanjay@coffeebeans.io";
         criteria.add(Criteria.where("dates").is(datesCheck));
         criteria.add(Criteria.where("email").is(emailCheck));
         query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
