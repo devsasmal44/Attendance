@@ -57,7 +57,7 @@ public class AttendanceController {
     	/*if (attendance.isEmpty())
     		return "Your can proceed with the attendance.";
     	else
-    		return "Your attendance is marked. Please login again tomorrow.";*/
+    		return "Your attendance is marked. Please login again tomorrow. asdasd";*/
         return attendance;
     }
 
