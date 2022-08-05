@@ -12,6 +12,7 @@ public class Attendance {
     private float temperature;
     private double latitude;
     private double longitude;
+    private String location;
     private long timestamp;
     private String dates;
     public String uniqueString;
@@ -37,6 +38,10 @@ public class Attendance {
         this.timestamp = timestamp;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
 
     public void setDates(String dates) {
         this.dates = dates;
@@ -60,6 +65,10 @@ public class Attendance {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public long getTimestamp() {

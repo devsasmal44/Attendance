@@ -14,6 +14,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -38,12 +41,10 @@ public class AttendanceExcelExporter {
             cell.setCellValue((String) value);
         }else if(value instanceof Float) {
             cell.setCellValue((Float) value);
-        }else if(value instanceof Double) {
-            cell.setCellValue((Double) value);
-        }else if(value instanceof Double) {
-            cell.setCellValue((Double) value);
-        }else {
-            cell.setCellValue((Long) value);
+        }else if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof String){
+            cell.setCellValue((String) value);
         }
         cell.setCellStyle(style);
     }
@@ -67,10 +68,20 @@ public class AttendanceExcelExporter {
         style.setFont(font);
         createCell(row, 0, "Attendance email", style);
         createCell(row, 1, "Temperature", style);
-        createCell(row,2,"Latitude",style);
-        createCell(row,3,"Longitude",style);
-        createCell(row, 4, "Date", style);
+        createCell(row,2,"Location",style);
+        createCell(row, 3, "Date", style);
+        createCell(row, 4, "Time", style);
 
+    }
+
+    private String[] dateTimeExtractor(Attendance atten){
+        long instantTime=atten.getTimestamp();
+        Instant instant = Instant.ofEpochSecond(instantTime);
+        String result = instant.toString();
+        ZonedDateTime dateTime = ZonedDateTime.parse(result);
+        String dateTimeString = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
+        String dateTimeSplitter[] = dateTimeString.split(" ",2);
+        return dateTimeSplitter;
     }
 
     private void writeDataLines() {
@@ -86,14 +97,12 @@ public class AttendanceExcelExporter {
             int columnCount=0;
             createCell(row, columnCount++, atten.getEmail(), style);
             createCell(row, columnCount++, atten.getTemperature(), style);
-            createCell(row, columnCount++,atten.getLatitude(),style);
-            createCell(row, columnCount++,atten.getLongitude(),style);
-            long instantTime=atten.getTimestamp();
-            Instant instant = Instant.ofEpochSecond(instantTime);
-            String result = instant.toString();
-            ZonedDateTime dateTime = ZonedDateTime.parse(result);
-            String dateTimeConverter = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
-            createCell(row, columnCount++, dateTimeConverter, style);
+            createCell(row, columnCount++, atten.getLocation(), style);
+            String dateTimeArray[] = dateTimeExtractor(atten);
+            String dateColumn = dateTimeArray[0];
+            String timeColumn  = dateTimeArray[1];
+            createCell(row, columnCount++, dateColumn, style);
+            createCell(row, columnCount++, timeColumn, style);
         }
     }
 

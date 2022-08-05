@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class AttendanceController {
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
         attendance.setDates(String.valueOf(LocalDate.now()));
+        attendance.setLocation("Out of office.");
         attendanceService.saveAttendance(attendance);
     }
 
@@ -44,21 +47,50 @@ public class AttendanceController {
         return attendanceService.getAttendance();
     }
 
-    @GetMapping("/check")
-    public List<Attendance> searchUser(){
-        Query query = new Query();
-        List<Criteria> criteria = new ArrayList<>();
-        String datesCheck = String.valueOf(LocalDate.now());
-        String emailCheck = "sanjay@coffeebeans.io";
-        criteria.add(Criteria.where("dates").is(datesCheck));
-        criteria.add(Criteria.where("email").is(emailCheck));
-        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-        List<Attendance> attendance = mongoOperations.find(query, Attendance.class);
-    	/*if (attendance.isEmpty())
-    		return "Your can proceed with the attendance.";
-    	else
-    		return "Your attendance is marked. Please login again tomorrow. asdasd";*/
-        return attendance;
+    public void insertLocation(List<Attendance> attendanceLists, Query query){
+        Update update = new Update();
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
+        double bangaloreLatitude = 12.91;
+        double bangaloreLongitude = 77.63;
+
+        double hyderabadLatitude = 17.42;
+        double hyderabadLongitude = 78.33;
+
+        double puneLatitude = 18.53;
+        double puneLongitude = 73.87;
+
+        for(Attendance attendance : attendanceLists) {
+            double latitudeCheck = Double.parseDouble(df.format(attendance.getLatitude()));
+            System.out.println(latitudeCheck);
+            double longitudeCheck = Double.parseDouble(df.format(attendance.getLongitude()));
+            if(latitudeCheck == bangaloreLatitude && longitudeCheck == bangaloreLongitude) {
+                attendance.setLocation("Bangalore");
+                update.set("location", attendance.getLocation());
+                mongoOperations.findAndModify(query, update, Attendance.class);
+            } else if (latitudeCheck == hyderabadLatitude && longitudeCheck == hyderabadLongitude) {
+                attendance.setLocation("Hyderabad");
+                update.set("location", attendance.getLocation());
+                mongoOperations.findAndModify(query, update, Attendance.class);
+            } else if (latitudeCheck == puneLatitude && longitudeCheck == puneLongitude){
+                attendance.setLocation("Pune");
+                update.set("location", attendance.getLocation());
+                mongoOperations.findAndModify(query, update, Attendance.class);
+            } else {
+                attendance.setLocation("Out of Office");
+                update.set("location", attendance.getLocation());
+                mongoOperations.findAndModify(query, update, Attendance.class);
+            }
+        }
+    }
+
+    @GetMapping("/checkLocation")
+    public void checkLocation(){
+        String emailCheck = "lmn@gmail.com";
+        Query query = new Query(Criteria.where("email").is(emailCheck));
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+        insertLocation(attendanceList, query);
     }
 
     @GetMapping("/export/excel")
