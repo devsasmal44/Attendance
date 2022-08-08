@@ -37,12 +37,7 @@ public class AttendanceController {
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
-
-        String emailCheck = attendance.getEmail();
-        Query query = new Query(Criteria.where("email").is(emailCheck));
-        mongoOperations.find(query, Attendance.class);
         attendance.setLocation(attendance.getLocation());
-
         attendanceService.saveAttendance(attendance);
     }
 
