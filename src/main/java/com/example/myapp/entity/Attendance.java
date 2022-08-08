@@ -1,7 +1,9 @@
 package com.example.myapp.entity;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -10,13 +12,19 @@ public class Attendance {
 
     private String email;
     private float temperature;
+
+    @Transient
     private double latitude;
+    @Transient
     private double longitude;
     private String location;
     private long timestamp;
-    private String dates;
-    public String uniqueString;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
+
+    public Attendance(){
+        this.setLatitude(12.91);
+        this.setLongitude(77.63);
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -39,16 +47,30 @@ public class Attendance {
     }
 
     public void setLocation(String location) {
-        this.location = location;
-    }
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
 
+        double bangaloreLatitude = 12.91;
+        double bangaloreLongitude = 77.63;
 
-    public void setDates(String dates) {
-        this.dates = dates;
-    }
+        double hyderabadLatitude = 17.42;
+        double hyderabadLongitude = 78.33;
 
-    public void setUniqueString(String uniqueString) {
-        this.uniqueString = uniqueString;
+        double puneLatitude = 18.53;
+        double puneLongitude = 73.87;
+
+        double latitudeCheck = Double.parseDouble(df.format(getLatitude()));
+        double longitudeCheck = Double.parseDouble(df.format(getLongitude()));
+
+        if(latitudeCheck == bangaloreLatitude && longitudeCheck == bangaloreLongitude) {
+            this.location = "Bangalore";
+        } else if (latitudeCheck == hyderabadLatitude && longitudeCheck == hyderabadLongitude) {
+            this.location = "Hyderabad";
+        } else if (latitudeCheck == puneLatitude && longitudeCheck == puneLongitude){
+            this.location = "Pune";
+        } else {
+            this.location = "Out of Office";
+        }
     }
 
     public String getEmail() {
@@ -74,13 +96,4 @@ public class Attendance {
     public long getTimestamp() {
         return timestamp;
     }
-
-    public String getDates() {
-        return dates;
-    }
-
-    public String getUniqueString() {
-        return uniqueString;
-    }
-
  }

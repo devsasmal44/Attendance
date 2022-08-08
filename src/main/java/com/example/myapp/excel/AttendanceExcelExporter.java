@@ -66,9 +66,9 @@ public class AttendanceExcelExporter {
         font.setBold(true);
         font.setFontHeight(16);
         style.setFont(font);
-        createCell(row, 0, "Attendance email", style);
+        createCell(row, 0, "Email", style);
         createCell(row, 1, "Temperature", style);
-        createCell(row,2,"Location",style);
+        createCell(row,2,"Office Location",style);
         createCell(row, 3, "Date", style);
         createCell(row, 4, "Time", style);
 
