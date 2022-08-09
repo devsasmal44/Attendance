@@ -3,6 +3,7 @@ package com.example.myapp.entity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,18 +13,15 @@ public class Attendance {
 
     private String email;
     private float temperature;
-
-    @Transient
     private double latitude;
-    @Transient
     private double longitude;
     private String location;
     private long timestamp;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public Attendance(){
-        this.setLatitude(12.91);
-        this.setLongitude(77.63);
+        this.setLatitude(12.9158188);
+        this.setLongitude(77.6353741);
     }
 
     public void setEmail(String email) {
@@ -47,8 +45,8 @@ public class Attendance {
     }
 
     public void setLocation(String location) {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
 
         double bangaloreLatitude = 12.91;
         double bangaloreLongitude = 77.63;

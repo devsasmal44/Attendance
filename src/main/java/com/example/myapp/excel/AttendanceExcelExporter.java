@@ -15,6 +15,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -91,6 +93,8 @@ public class AttendanceExcelExporter {
         XSSFFont font=workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
         for(Attendance atten:attendanceList) {
             Row row=sheet.createRow(rowCount++);
