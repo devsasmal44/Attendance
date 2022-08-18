@@ -48,7 +48,7 @@ public class QrCodeController {
         if (qrcodeService.isUniqueIdExists(id)) {
             Optional<Qrcode> optional = qrRepo.findById(id);
             Qrcode qrResponse = optional.get();
-            //if(>Instant.now().getEpochSecond())
+            //if(>Instant.now().getEpochSecond(sda))
                 return "Qrcode found";
             //else
             //    return "Qrcode expired";
