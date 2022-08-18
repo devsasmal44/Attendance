@@ -17,7 +17,6 @@ public class Qrcode {
     private long compareTime;
 
     public Qrcode() {
-
         this.uniqueId = String.valueOf(UUID.randomUUID());
         this.currentTime = Instant.now().getEpochSecond();
         this.expiryTime = this.currentTime+(2*60);
