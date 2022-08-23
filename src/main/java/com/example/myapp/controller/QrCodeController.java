@@ -11,6 +11,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/qrcode")
+@CrossOrigin
 public class QrCodeController {
     private QrcodeService qrcodeService;
     private QrRepo qrRepo;

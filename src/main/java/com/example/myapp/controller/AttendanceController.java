@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/attendance")
+@CrossOrigin
 public class AttendanceController {
 
     private AttendanceService attendanceService;
