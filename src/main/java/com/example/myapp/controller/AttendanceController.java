@@ -34,7 +34,7 @@ public class AttendanceController {
         this.attendanceRepo = attendanceRepo;
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:8000")
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
