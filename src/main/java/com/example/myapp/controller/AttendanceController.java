@@ -34,6 +34,7 @@ public class AttendanceController {
         this.attendanceRepo = attendanceRepo;
     }
 
+    @CrossOrigin
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
@@ -41,11 +42,13 @@ public class AttendanceController {
         attendanceService.saveAttendance(attendance);
     }
 
+    @CrossOrigin
     @GetMapping("/list")
     public List<Attendance> getAttendance() {
         return attendanceService.getAttendance();
     }
 
+    @CrossOrigin
     @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
