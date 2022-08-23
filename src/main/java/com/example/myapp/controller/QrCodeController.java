@@ -32,7 +32,7 @@ public class QrCodeController {
         return qrcodeService.saveQrcode(qrcode);
     }
 
-    @CrossOrigin(origins = "http://localhost:8000")
+    @CrossOrigin(origins = "http://localhost:8000/git ")
     @GetMapping("/uniqueId")
     public String getUniqueId() {
         return qrcode.getUniqueId();
