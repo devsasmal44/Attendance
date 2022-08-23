@@ -23,7 +23,6 @@ public class QrCodeController {
         this.qrRepo = qrRepo;
     }
 
-    @CrossOrigin(origins = "http://localhost:8000")
     @GetMapping ("/save")
     public Qrcode saveQrcode() {
         qrcode.setUniqueId(String.valueOf(UUID.randomUUID()));
@@ -32,19 +31,16 @@ public class QrCodeController {
         return qrcodeService.saveQrcode(qrcode);
     }
 
-    @CrossOrigin(origins = "http://localhost:8000/")
     @GetMapping("/uniqueId")
     public String getUniqueId() {
         return qrcode.getUniqueId();
     }
 
-    @CrossOrigin
     @GetMapping("/list")
     public List<Qrcode> getQrcode() {
         return qrcodeService.getQrcode();
     }
 
-    @CrossOrigin
     @GetMapping("/exists")
     @ResponseBody
     public String isUniqueIdExists() {
