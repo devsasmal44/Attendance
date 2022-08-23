@@ -18,13 +18,13 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @CrossOrigin
+
     @PostMapping("/save")
     public void saveEmployee(@RequestBody Employee employee) {
          employeeService.saveEmployee(employee);
     }
 
-    @CrossOrigin
+
     @GetMapping("/list")
     public List<Employee> getEmployee() {
         return employeeService.getEmployee();
