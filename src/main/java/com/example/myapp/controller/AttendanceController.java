@@ -29,7 +29,6 @@ public class AttendanceController {
 
     @Autowired
     MongoOperations mongoOperations;
-
     AttendanceController(AttendanceService attendanceService, AttendanceRepo attendanceRepo){
         this.attendanceService =attendanceService;
         this.attendanceRepo = attendanceRepo;
