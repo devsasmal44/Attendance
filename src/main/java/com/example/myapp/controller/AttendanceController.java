@@ -33,8 +33,6 @@ public class AttendanceController {
         this.attendanceService =attendanceService;
         this.attendanceRepo = attendanceRepo;
     }
-
-
     @CrossOrigin
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
