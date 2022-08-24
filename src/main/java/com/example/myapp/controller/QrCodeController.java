@@ -11,7 +11,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/qrcode")
-@CrossOrigin(origins = "http://localhost:8000")
+@CrossOrigin(origins = {"http://localhost:8000", "http://localhost:8000/"})
 public class QrCodeController {
     private QrcodeService qrcodeService;
     private QrRepo qrRepo;
