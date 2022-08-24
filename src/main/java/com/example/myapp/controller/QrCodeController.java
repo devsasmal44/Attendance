@@ -16,6 +16,7 @@ public class QrCodeController {
     private QrcodeService qrcodeService;
     private QrRepo qrRepo;
 
+
     Qrcode qrcode = new Qrcode();
     Attendance attendance = new Attendance();
 
