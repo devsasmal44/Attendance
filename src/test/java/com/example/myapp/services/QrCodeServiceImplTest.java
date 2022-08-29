@@ -1,16 +1,15 @@
 package com.example.myapp.services;
 
-import com.example.myapp.entity.Qrcode;
-import com.example.myapp.repository.QrRepo;
+import com.example.dev.entity.Qrcode;
+import com.example.dev.repository.QrRepo;
+import com.example.dev.services.QrCodeServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
