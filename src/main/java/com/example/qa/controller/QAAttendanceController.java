@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/attendance_qa")
+@CrossOrigin
 public class QAAttendanceController {
 
     private QA_AttendanceService attendanceService;
@@ -28,7 +29,7 @@ public class QAAttendanceController {
         this.attendanceRepo = attendanceRepo;
     }
 
-    @CrossOrigin(origins = "http://localhost:8000")
+
     @PostMapping("/qa/save")
     public void saveAttendance(@RequestBody QA_Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
@@ -36,13 +37,11 @@ public class QAAttendanceController {
         attendanceService.saveAttendance(attendance);
     }
 
-    @CrossOrigin
     @GetMapping("/qa/list")
     public List<QA_Attendance> getAttendance() {
         return attendanceService.getAttendance();
     }
 
-    @CrossOrigin
     @GetMapping("/qa/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");

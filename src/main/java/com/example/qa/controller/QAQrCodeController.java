@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/qrcode_qa")
+@CrossOrigin
 public class QAQrCodeController {
     private QA_QrcodeService qrcodeService;
     private QA_QrRepo qrRepo;
@@ -25,7 +26,7 @@ public class QAQrCodeController {
         this.qrRepo = qrRepo;
     }
 
-    @CrossOrigin
+
     @GetMapping ("/qa/save")
     public QA_Qrcode saveQrcode() {
         qrcode.setUniqueId(String.valueOf(UUID.randomUUID()));
@@ -34,19 +35,17 @@ public class QAQrCodeController {
         return qrcodeService.saveQrcode(qrcode);
     }
 
-    @CrossOrigin
     @GetMapping("/qa/uniqueId")
     public String getUniqueId() {
         return qrcode.getUniqueId();
     }
 
-    @CrossOrigin
     @GetMapping("/qa/list")
     public List<QA_Qrcode> getQrcode() {
         return qrcodeService.getQrcode();
     }
 
-    @CrossOrigin
+
     @GetMapping("/qa/exists")
     @ResponseBody
     public String isUniqueIdExists() {

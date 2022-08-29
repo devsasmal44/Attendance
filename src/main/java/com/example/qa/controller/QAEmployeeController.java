@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employee_qa")
+@CrossOrigin
 public class QAEmployeeController {
 
     private QA_EmployeeService employeeService;
@@ -17,13 +18,13 @@ public class QAEmployeeController {
         this.employeeService = employeeService;
     }
 
-    @CrossOrigin
+
     @PostMapping("/qa/save")
     public void saveEmployee(@RequestBody QA_Employee employee) {
          employeeService.saveEmployee(employee);
     }
 
-    @CrossOrigin
+
     @GetMapping("/qa/list")
     public List<QA_Employee> getEmployee() {
         return employeeService.getEmployee();
