@@ -77,8 +77,8 @@ public class QA_AttendanceExcelExporter {
         Instant instant = Instant.ofEpochSecond(instantTime);
         String result = instant.toString();
         ZonedDateTime dateTime = ZonedDateTime.parse(result);
-        String dateTimeString = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
-        String dateTimeSplitter[] = dateTimeString.split(" ",2);
+        String dateTimeString = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("E dd-MMM-yyyy hh:mm:ss a"));
+        String dateTimeSplitter[] = dateTimeString.split(" ",3);
         return dateTimeSplitter;
     }
 
@@ -99,7 +99,7 @@ public class QA_AttendanceExcelExporter {
             createCell(row, columnCount++, atten.getTemperature(), style);
             createCell(row, columnCount++, atten.getLocation(), style);
             String dateTimeArray[] = dateTimeExtractor(atten);
-            String dateColumn = dateTimeArray[0];
+            String dateColumn = dateTimeArray[0] + " "+ dateTimeArray[1];
             String timeColumn  = dateTimeArray[1];
             createCell(row, columnCount++, dateColumn, style);
             createCell(row, columnCount++, timeColumn, style);
