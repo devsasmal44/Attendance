@@ -9,17 +9,23 @@ import java.util.UUID;
 @Document(collection = "attendance_qa")
 public class QA_Attendance {
 
+    private String name;
     private String email;
     private float temperature;
     private double latitude;
     private double longitude;
     private String location;
     private long timestamp;
+    private String dates;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public QA_Attendance(){
         this.setLatitude(12.9158188);
         this.setLongitude(77.6353741);
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
@@ -40,6 +46,10 @@ public class QA_Attendance {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setDates(String dates) {
+        this.dates = dates;
     }
 
     public void setLocation(String location) {
@@ -69,6 +79,10 @@ public class QA_Attendance {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -91,5 +105,9 @@ public class QA_Attendance {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getDates() {
+        return dates;
     }
  }

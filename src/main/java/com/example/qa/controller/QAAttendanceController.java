@@ -1,16 +1,21 @@
 package com.example.qa.controller;
 
+import com.example.dev.entity.Attendance;
 import com.example.qa.entity.QA_Attendance;
 import com.example.qa.excel.QA_AttendanceExcelExporter;
 import com.example.qa.repository.QA_AttendanceRepo;
 import com.example.qa.services.QA_AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,12 +39,25 @@ public class QAAttendanceController {
     public void saveAttendance(@RequestBody QA_Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
         attendance.setLocation(attendance.getLocation());
+        attendance.setDates(String.valueOf(LocalDate.now()));
         attendanceService.saveAttendance(attendance);
     }
 
     @GetMapping("/qa/list")
     public List<QA_Attendance> getAttendance() {
         return attendanceService.getAttendance();
+    }
+
+    @GetMapping("/nameList")
+    public List<String> nameList(){
+        String datesCheck = String.valueOf(LocalDate.now());
+        Query query = new Query(Criteria.where("dates").is(datesCheck));
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+        List<String> nameList = new ArrayList<>();
+        for(Attendance a : attendanceList ){
+            nameList.add(a.getEmail());
+        }
+        return nameList;
     }
 
     @GetMapping("/qa/export/excel")

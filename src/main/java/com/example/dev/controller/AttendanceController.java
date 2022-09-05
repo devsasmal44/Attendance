@@ -6,11 +6,15 @@ import com.example.dev.repository.AttendanceRepo;
 import com.example.dev.services.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,11 +37,24 @@ public class AttendanceController {
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
         attendance.setLocation(attendance.getLocation());
+        attendance.setDates(String.valueOf(LocalDate.now()));
         attendanceService.saveAttendance(attendance);
     }
     @GetMapping("/list")
     public List<Attendance> getAttendance() {
         return attendanceService.getAttendance();
+    }
+
+    @GetMapping("/nameList")
+    public List<String> nameList(){
+        String datesCheck = String.valueOf(LocalDate.now());
+        Query query = new Query(Criteria.where("dates").is(datesCheck));
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+        List<String> nameList = new ArrayList<>();
+        for(Attendance a : attendanceList ){
+            nameList.add(a.getEmail());
+        }
+        return nameList;
     }
 
     @GetMapping("/export/excel")

@@ -5,23 +5,32 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Document(collection = "attendance")
 public class Attendance {
-
+    private String name;
     private String email;
     private float temperature;
     private double latitude;
     private double longitude;
     private String location;
     private long timestamp;
+    private String dates;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public Attendance(){
         this.setLatitude(12.9158188);
         this.setLongitude(77.6353741);
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
@@ -42,6 +51,10 @@ public class Attendance {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setDates(String dates) {
+        this.dates = dates;
     }
 
     public void setLocation(String location) {
@@ -71,6 +84,10 @@ public class Attendance {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -93,5 +110,17 @@ public class Attendance {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getDates() {
+        return dates;
+    }
+    public String dateTimeExtractor(long todaysTimestamp){
+        Instant instant = Instant.ofEpochSecond(todaysTimestamp);
+        String result = instant.toString();
+        ZonedDateTime dateTime = ZonedDateTime.parse(result);
+        String dateTimeString = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
+        String dateTimeSplitter[] = dateTimeString.split(" ",2);
+        return dateTimeSplitter[0];
     }
  }

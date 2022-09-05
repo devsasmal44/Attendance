@@ -37,6 +37,8 @@ public class QA_AttendanceExcelExporter {
         Cell cell=row.createCell(columnCount);
         if(value instanceof String) {
             cell.setCellValue((String) value);
+        }else if(value instanceof String) {
+            cell.setCellValue((String) value);
         }else if(value instanceof Float) {
             cell.setCellValue((Float) value);
         }else if(value instanceof String) {
@@ -64,11 +66,12 @@ public class QA_AttendanceExcelExporter {
         font.setBold(true);
         font.setFontHeight(16);
         style.setFont(font);
-        createCell(row, 0, "Email", style);
-        createCell(row, 1, "Temperature", style);
-        createCell(row,2,"Office Location",style);
-        createCell(row, 3, "Date", style);
-        createCell(row, 4, "Time", style);
+        createCell(row, 0, "Name", style);
+        createCell(row, 1, "Email", style);
+        createCell(row, 2, "Temperature", style);
+        createCell(row,3,"Office Location",style);
+        createCell(row, 4, "Date", style);
+        createCell(row, 5, "Time", style);
 
     }
 
@@ -95,12 +98,13 @@ public class QA_AttendanceExcelExporter {
         for(QA_Attendance atten:attendanceList) {
             Row row=sheet.createRow(rowCount++);
             int columnCount=0;
+            createCell(row, columnCount++, atten.getName(), style);
             createCell(row, columnCount++, atten.getEmail(), style);
             createCell(row, columnCount++, atten.getTemperature(), style);
             createCell(row, columnCount++, atten.getLocation(), style);
             String dateTimeArray[] = dateTimeExtractor(atten);
-            String dateColumn = dateTimeArray[0] + " "+ dateTimeArray[1];
-            String timeColumn  = dateTimeArray[1];
+            String dateColumn = dateTimeArray[0] + " " + dateTimeArray[1];
+            String timeColumn  = dateTimeArray[2];
             createCell(row, columnCount++, dateColumn, style);
             createCell(row, columnCount++, timeColumn, style);
         }
