@@ -52,9 +52,9 @@ public class QAAttendanceController {
     public List<String> nameList(){
         String datesCheck = String.valueOf(LocalDate.now());
         Query query = new Query(Criteria.where("dates").is(datesCheck));
-        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+        List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
         List<String> nameList = new ArrayList<>();
-        for(Attendance a : attendanceList ){
+        for(QA_Attendance a : attendanceList ){
             nameList.add(a.getEmail());
         }
         return nameList;
