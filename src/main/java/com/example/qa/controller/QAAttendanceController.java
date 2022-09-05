@@ -55,7 +55,7 @@ public class QAAttendanceController {
         List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
         List<String> nameList = new ArrayList<>();
         for(QA_Attendance a : attendanceList ){
-            nameList.add(a.getEmail());
+            nameList.add(a.getName());
         }
         return nameList;
     }
