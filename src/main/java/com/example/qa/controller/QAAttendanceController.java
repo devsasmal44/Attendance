@@ -5,6 +5,7 @@ import com.example.qa.entity.QA_Attendance;
 import com.example.qa.excel.QA_AttendanceExcelExporter;
 import com.example.qa.repository.QA_AttendanceRepo;
 import com.example.qa.services.QA_AttendanceService;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 @RestController
 @RequestMapping("/attendance_qa")
@@ -58,10 +57,7 @@ public class QAAttendanceController {
         for(QA_Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        List<String> list = new ArrayList<>();
-        for (String item : nameList) {
-            list.add("\""+item+"\"");
-        }
+        Collections.sort(nameList);
         return nameList;
     }
 

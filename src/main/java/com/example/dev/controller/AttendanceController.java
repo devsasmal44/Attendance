@@ -5,6 +5,7 @@ import com.example.dev.excel.AttendanceExcelExporter;
 import com.example.dev.repository.AttendanceRepo;
 import com.example.dev.services.AttendanceService;
 import org.apache.tomcat.util.buf.StringUtils;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 @RestController
 @RequestMapping("/attendance")
@@ -48,15 +47,17 @@ public class AttendanceController {
     }
 
     @GetMapping("/nameList")
-    public String nameList(){
+    public List<String> nameList(){
         String datesCheck = String.valueOf(LocalDate.now());
         Query query = new Query(Criteria.where("dates").is(datesCheck));
         List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
         List<String> nameList = new ArrayList<>();
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
+
         }
-        return nameList.toString();
+        Collections.sort(nameList);
+        return nameList;
     }
 
     @GetMapping("/export/excel")
