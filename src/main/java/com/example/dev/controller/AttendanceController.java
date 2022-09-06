@@ -59,9 +59,9 @@ public class AttendanceController {
         String delim = " ";
         StringJoiner joiner = new StringJoiner(delim);
         for (String s : nameList) {
-            joiner.add("\n" + s.toString());
+            joiner.add(s.toString());
         }
-        String res = joiner.toString();
+        String res = joiner.toString()+ "\n";
         return res;
     }
 
