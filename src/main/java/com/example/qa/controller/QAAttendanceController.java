@@ -50,7 +50,7 @@ public class QAAttendanceController {
     }
 
     @GetMapping("/nameList")
-    public String nameList(){
+    public List<String> nameList(){
         String datesCheck = String.valueOf(LocalDate.now());
         Query query = new Query(Criteria.where("dates").is(datesCheck));
         List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
@@ -62,7 +62,7 @@ public class QAAttendanceController {
         for (String item : nameList) {
             list.add("\""+item+"\"");
         }
-        return list.toString();
+        return nameList;
     }
 
     @GetMapping("/qa/export/excel")
