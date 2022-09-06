@@ -4,8 +4,6 @@ import com.example.dev.entity.Attendance;
 import com.example.dev.excel.AttendanceExcelExporter;
 import com.example.dev.repository.AttendanceRepo;
 import com.example.dev.services.AttendanceService;
-import org.apache.tomcat.util.buf.StringUtils;
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -56,7 +54,9 @@ public class AttendanceController {
             nameList.add(a.getName());
 
         }
+        System.out.println(nameList);
         Collections.sort(nameList);
+        System.out.println(nameList);
         return nameList;
     }
 

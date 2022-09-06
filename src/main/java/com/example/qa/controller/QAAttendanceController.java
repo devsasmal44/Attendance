@@ -5,7 +5,6 @@ import com.example.qa.entity.QA_Attendance;
 import com.example.qa.excel.QA_AttendanceExcelExporter;
 import com.example.qa.repository.QA_AttendanceRepo;
 import com.example.qa.services.QA_AttendanceService;
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
