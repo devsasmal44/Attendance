@@ -56,13 +56,7 @@ public class AttendanceController {
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        String delim = " ";
-        StringJoiner joiner = new StringJoiner(delim);
-        for (String s : nameList) {
-            joiner.add(s.toString());
-        }
-        String res = joiner.toString();
-        return res;
+        return nameList.toString();
     }
 
     @GetMapping("/export/excel")
