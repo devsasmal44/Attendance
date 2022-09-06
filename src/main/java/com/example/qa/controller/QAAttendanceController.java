@@ -58,7 +58,11 @@ public class QAAttendanceController {
         for(QA_Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        return nameList.toString();
+        List<String> list = new ArrayList<>();
+        for (String item : nameList) {
+            list.add("\""+item+"\"");
+        }
+        return list.toString();
     }
 
     @GetMapping("/qa/export/excel")
