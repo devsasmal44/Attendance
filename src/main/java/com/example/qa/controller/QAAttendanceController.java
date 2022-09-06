@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @RestController
 @RequestMapping("/attendance_qa")
@@ -49,7 +50,7 @@ public class QAAttendanceController {
     }
 
     @GetMapping("/nameList")
-    public List<String> nameList(){
+    public String nameList(){
         String datesCheck = String.valueOf(LocalDate.now());
         Query query = new Query(Criteria.where("dates").is(datesCheck));
         List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
@@ -57,7 +58,13 @@ public class QAAttendanceController {
         for(QA_Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        return nameList;
+        String delim = "\n";
+        StringJoiner joiner = new StringJoiner(delim);
+        for (String s : nameList) {
+            joiner.add(s.toString());
+        }
+        String res = joiner.toString();
+        return res;
     }
 
     @GetMapping("/qa/export/excel")
