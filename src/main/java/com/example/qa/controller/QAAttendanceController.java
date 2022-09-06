@@ -61,7 +61,7 @@ public class QAAttendanceController {
         String delim = " ";
         StringJoiner joiner = new StringJoiner(delim);
         for (String s : nameList) {
-            joiner.add(s.toString());
+            joiner.add("\n" + s.toString());
         }
         String res = joiner.toString();
         return res;
