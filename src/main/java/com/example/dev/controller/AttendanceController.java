@@ -56,7 +56,7 @@ public class AttendanceController {
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        String delim = "\n";
+        String delim = " ";
         StringJoiner joiner = new StringJoiner(delim);
         for (String s : nameList) {
             joiner.add(s.toString());
