@@ -61,7 +61,7 @@ public class AttendanceController {
         for (String s : nameList) {
             joiner.add(s.toString());
         }
-        String res = joiner.toString()+ "\n";
+        String res = joiner.toString();
         return res;
     }
 
