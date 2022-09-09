@@ -52,35 +52,61 @@ public class QAAttendanceController {
         QA_Attendance qa_attendance = new QA_Attendance();
         String loc = qa_attendance.location_check();
 
-        Query query = new Query();
-        List<Criteria> criteria = new ArrayList<>();
+        Query queryOne = new Query();
+        Query queryTwo = new Query();
+        Query queryThree = new Query();
+        List<Criteria> criteriaOne = new ArrayList<>();
+        List<Criteria> criteriaTwo = new ArrayList<>();
+        List<Criteria> criteriaThree = new ArrayList<>();
         String datesCheck = String.valueOf(LocalDate.now());
-        criteria.add(Criteria.where("dates").is(datesCheck));
+
+        criteriaOne.add(Criteria.where("dates").is(datesCheck));
+        String locationOne = "Bangalore";
+        criteriaOne.add(Criteria.where("location").is(locationOne));
+        queryOne.addCriteria(new Criteria().andOperator(criteriaOne.toArray(new Criteria[criteriaOne.size()])));
+        List<QA_Attendance> BlrNameList = mongoOperations.find(queryOne, QA_Attendance.class);
+
+        criteriaTwo.add(Criteria.where("dates").is(datesCheck));
+        String locationTwo = "Hyderabad";
+        criteriaTwo.add(Criteria.where("location").is(locationTwo));
+        queryTwo.addCriteria(new Criteria().andOperator(criteriaTwo.toArray(new Criteria[criteriaTwo.size()])));
+        List<QA_Attendance> HydNameList = mongoOperations.find(queryTwo, QA_Attendance.class);
+
+        criteriaThree.add(Criteria.where("dates").is(datesCheck));
+        String locationThree = "Pune";
+        criteriaThree.add(Criteria.where("location").is(locationThree));
+        queryThree.addCriteria(new Criteria().andOperator(criteriaThree.toArray(new Criteria[criteriaThree.size()])));
+        List<QA_Attendance> PuneNameList = mongoOperations.find(queryThree, QA_Attendance.class);
+
+        List<String> NameListOne = new ArrayList<>();
+        List<String> NameListTwo = new ArrayList<>();
+        List<String> NameListThree = new ArrayList<>();
+        for(QA_Attendance a : BlrNameList ){
+            NameListOne.add(a.getName());
+        }
+        Collections.sort(NameListOne);
+
+        for(QA_Attendance a : HydNameList ){
+            NameListTwo.add(a.getName());
+        }
+        Collections.sort(NameListTwo);
+
+        for(QA_Attendance a : PuneNameList ){
+            NameListThree.add(a.getName());
+        }
+        Collections.sort(NameListThree);
 
         if(loc == "Bangalore"){
-            String locationCheck = "Bangalore";
-            criteria.add(Criteria.where("location").is(locationCheck));
+            return NameListOne;
         }
         else if(loc == "Hyderabad"){
-            String locationCheck = "Hyderabad";
-            criteria.add(Criteria.where("location").is(locationCheck));
+            return NameListTwo;
         }
         else if(loc == "Pune"){
-            String locationCheck = "Pune";
-            criteria.add(Criteria.where("location").is(locationCheck));
+            return NameListThree;
         } else {
             return null;
         }
-        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-        List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
-
-        List<String> nameList = new ArrayList<>();
-        for(QA_Attendance a : attendanceList ){
-            nameList.add(a.getName());
-        }
-        Collections.sort(nameList);
-        System.out.println(nameList);
-        return nameList;
     }
 
     @GetMapping("/qa/export/excel")
