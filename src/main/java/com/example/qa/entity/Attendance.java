@@ -19,7 +19,7 @@ public class Attendance {
     private String dates;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
-    public Attendance(double latitude, double longitude){
+    public Attendance(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -38,11 +38,11 @@ public class Attendance {
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        this.latitude = 18.53;
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;
+        this.longitude = 73.87;
     }
 
     public void setTimestamp(long timestamp) {

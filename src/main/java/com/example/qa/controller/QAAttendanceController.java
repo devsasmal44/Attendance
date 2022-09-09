@@ -94,5 +94,7 @@ public class QAAttendanceController {
         Collections.sort(nameList);
         System.out.println(nameList);
         return nameList;
+
+        }
     }
-}
+
