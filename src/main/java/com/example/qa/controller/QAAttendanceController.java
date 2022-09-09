@@ -51,7 +51,7 @@ public class QAAttendanceController {
     public List<String> nameList(){
         QA_Attendance qa_attendance = new QA_Attendance();
         String loc = qa_attendance.location_check();
-        System.out.println(loc);
+
         Query query = new Query();
         List<Criteria> criteria = new ArrayList<>();
         String datesCheck = String.valueOf(LocalDate.now());
@@ -79,6 +79,7 @@ public class QAAttendanceController {
             nameList.add(a.getName());
         }
         Collections.sort(nameList);
+        System.out.println(nameList);
         return nameList;
     }
 
