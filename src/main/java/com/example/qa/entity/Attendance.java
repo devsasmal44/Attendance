@@ -38,11 +38,11 @@ public class Attendance {
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = 18.53;
+        this.latitude = latitude;
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = 73.87;
+        this.longitude = longitude;
     }
 
     public void setTimestamp(long timestamp) {
@@ -142,4 +142,4 @@ public class Attendance {
  }
 
 
-// localhost:8080/attendance_qa/nameList?lat=77.63&long=12.91
+// localhost:8080/attendance_qa/nameList?lat=77.63&long=12.91s
