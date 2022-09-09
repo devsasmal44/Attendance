@@ -49,7 +49,9 @@ public class QAAttendanceController {
 
     @GetMapping("/nameList")
     public List<String> nameList(){
+
         QA_Attendance qa_attendance = new QA_Attendance();
+        qa_attendance.setLocation(qa_attendance.getLocation());
         String loc = qa_attendance.location_check();
 
         Query queryOne = new Query();
