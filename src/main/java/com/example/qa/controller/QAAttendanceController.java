@@ -1,7 +1,6 @@
 package com.example.qa.controller;
 
-import com.example.dev.entity.Attendance;
-import com.example.qa.entity.QA_Attendance;
+import com.example.qa.entity.Attendance;
 import com.example.qa.excel.QA_AttendanceExcelExporter;
 import com.example.qa.repository.QA_AttendanceRepo;
 import com.example.qa.services.QA_AttendanceService;
@@ -35,7 +34,7 @@ public class QAAttendanceController {
 
 
     @PostMapping("/qa/save")
-    public void saveAttendance(@RequestBody QA_Attendance attendance) {
+    public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
         attendance.setLocation(attendance.getLocation());
         attendance.setDates(String.valueOf(LocalDate.now()));
@@ -43,46 +42,11 @@ public class QAAttendanceController {
     }
 
     @GetMapping("/qa/list")
-    public List<QA_Attendance> getAttendance() {
+    public List<Attendance> getAttendance() {
         return attendanceService.getAttendance();
     }
 
-    @GetMapping("/nameList")
-    public List<String> nameList(){
-        QA_Attendance qa_attendance = new QA_Attendance();
-        String loc = qa_attendance.location_check();
-
-        Query query = new Query();
-        List<Criteria> criteria = new ArrayList<>();
-        String datesCheck = String.valueOf(LocalDate.now());
-        criteria.add(Criteria.where("dates").is(datesCheck));
-
-        if(loc == "Bangalore"){
-            String locationCheck = "Bangalore";
-            criteria.add(Criteria.where("location").is(locationCheck));
-        }
-        else if(loc == "Hyderabad"){
-            String locationCheck = "Hyderabad";
-            criteria.add(Criteria.where("location").is(locationCheck));
-        }
-        else if(loc == "Pune"){
-            String locationCheck = "Pune";
-            criteria.add(Criteria.where("location").is(locationCheck));
-        } else {
-            return null;
-        }
-        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-        List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
-
-        List<String> nameList = new ArrayList<>();
-        for(QA_Attendance a : attendanceList ){
-            nameList.add(a.getName());
-        }
-        Collections.sort(nameList);
-        System.out.println(nameList);
-        return nameList;
-    }
-
+    ///names?long=77.63&lat=12.91
     @GetMapping("/qa/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
@@ -90,9 +54,45 @@ public class QAAttendanceController {
         String headervalue = "attachment; filename=Employee_info.xlsx";
 
         response.setHeader(headerKey, headervalue);
-        List<QA_Attendance> attendanceList = attendanceRepo.findAll();
+        List<Attendance> attendanceList = attendanceRepo.findAll();
         QA_AttendanceExcelExporter exp = new QA_AttendanceExcelExporter(attendanceList);
         exp.export(response);
 
+    }
+
+    @GetMapping("/nameList")
+    public List<String> fetchNames(@RequestParam(name ="lat") String latitude,@RequestParam(name = "long") String longitude){
+        Attendance attendance = new Attendance(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        String officeBranch = attendance.getOfficeBranch();
+
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+        String presentDate = String.valueOf(LocalDate.now());
+        criteria.add(Criteria.where("dates").is(presentDate));
+
+        if(officeBranch == "Bangalore"){
+            String locationCheck = "Bangalore";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        }
+        else if(officeBranch == "Hyderabad"){
+            String locationCheck = "Hyderabad";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        }
+        else if(officeBranch == "Pune"){
+            String locationCheck = "Pune";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        } else {
+            return null;
+        }
+        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+
+        List<String> nameList = new ArrayList<>();
+        for(Attendance a : attendanceList ){
+            nameList.add(a.getName());
+        }
+        Collections.sort(nameList);
+        System.out.println(nameList);
+        return nameList;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.qa.services;
 
-import com.example.qa.entity.QA_Attendance;
+import com.example.qa.entity.Attendance;
 import com.example.qa.repository.QA_AttendanceRepo;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ public class QA_AttendanceServiceImpl implements QA_AttendanceService {
     }
 
     @Override
-    public QA_Attendance saveAttendance(QA_Attendance attendance) {
+    public Attendance saveAttendance(Attendance attendance) {
         return attendanceRepo.save(attendance);
     }
 
     @Override
-    public List<QA_Attendance> getAttendance() {
+    public List<Attendance> getAttendance() {
         return attendanceRepo.findAll();
     }
 

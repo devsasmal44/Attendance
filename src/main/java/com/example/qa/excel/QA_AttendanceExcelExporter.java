@@ -1,6 +1,6 @@
 package com.example.qa.excel;
 
-import com.example.qa.entity.QA_Attendance;
+import com.example.qa.entity.Attendance;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -23,10 +23,10 @@ public class QA_AttendanceExcelExporter {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
 
-    private List<QA_Attendance> attendanceList;
+    private List<Attendance> attendanceList;
 
 
-    public QA_AttendanceExcelExporter(List<QA_Attendance> attendanceList) {
+    public QA_AttendanceExcelExporter(List<Attendance> attendanceList) {
         this.attendanceList=attendanceList;
         workbook = new XSSFWorkbook();
 
@@ -75,7 +75,7 @@ public class QA_AttendanceExcelExporter {
 
     }
 
-    private String[] dateTimeExtractor(QA_Attendance atten){
+    private String[] dateTimeExtractor(Attendance atten){
         long instantTime=atten.getTimestamp();
         Instant instant = Instant.ofEpochSecond(instantTime);
         String result = instant.toString();
@@ -95,7 +95,7 @@ public class QA_AttendanceExcelExporter {
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
-        for(QA_Attendance atten:attendanceList) {
+        for(Attendance atten:attendanceList) {
             Row row=sheet.createRow(rowCount++);
             int columnCount=0;
             createCell(row, columnCount++, atten.getName(), style);

@@ -1,6 +1,6 @@
 package com.example.qa.controller;
 
-import com.example.qa.entity.QA_Attendance;
+import com.example.qa.entity.Attendance;
 import com.example.qa.entity.QA_Qrcode;
 import com.example.qa.repository.QA_QrRepo;
 import com.example.qa.services.QA_QrcodeService;
@@ -19,7 +19,7 @@ public class QAQrCodeController {
     private QA_QrRepo qrRepo;
 
     QA_Qrcode qrcode = new QA_Qrcode();
-    QA_Attendance attendance = new QA_Attendance();
+    Attendance attendance;
 
     QAQrCodeController(QA_QrcodeService qrcodeService, QA_QrRepo qrRepo){
         this.qrcodeService = qrcodeService;

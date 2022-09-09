@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.UUID;
 
 @Document(collection = "attendance_qa")
-public class QA_Attendance {
+public class Attendance {
 
     private String name;
     private String email;
@@ -19,10 +19,11 @@ public class QA_Attendance {
     private String dates;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
-    public QA_Attendance(){
-        this.setLatitude(18.53345643);
-        this.setLongitude(73.8753741);
+    public Attendance(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -111,7 +112,7 @@ public class QA_Attendance {
         return dates;
     }
 
-    public String location_check(){
+    public String getOfficeBranch(){
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.FLOOR);
 
@@ -139,3 +140,6 @@ public class QA_Attendance {
         return location;
     }
  }
+
+
+// localhost:8080/attendance_qa/nameList?lat=77.63&long=12.91
