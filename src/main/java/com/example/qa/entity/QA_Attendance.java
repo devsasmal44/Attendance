@@ -20,8 +20,8 @@ public class QA_Attendance {
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public QA_Attendance(){
-        //this.setLatitude(18.53345643);
-        //this.setLongitude(73.8753741);
+        this.setLatitude(12.91);
+        this.setLongitude(77.63);
     }
 
     public void setName(String name) {
