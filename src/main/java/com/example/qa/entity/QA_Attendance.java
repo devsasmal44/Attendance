@@ -20,8 +20,8 @@ public class QA_Attendance {
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public QA_Attendance(){
-        this.setLatitude(12.9158188);
-        this.setLongitude(77.6353741);
+        this.setLatitude(17.428188);
+        this.setLongitude(78.3353741);
     }
 
     public void setName(String name) {
@@ -109,5 +109,33 @@ public class QA_Attendance {
 
     public String getDates() {
         return dates;
+    }
+
+    public String location_check(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
+
+        double bangaloreLatitude = 12.91;
+        double bangaloreLongitude = 77.63;
+
+        double hyderabadLatitude = 17.42;
+        double hyderabadLongitude = 78.33;
+
+        double puneLatitude = 18.53;
+        double puneLongitude = 73.87;
+
+        double latitudeCheck = Double.parseDouble(df.format(getLatitude()));
+        double longitudeCheck = Double.parseDouble(df.format(getLongitude()));
+
+        if(latitudeCheck == bangaloreLatitude && longitudeCheck == bangaloreLongitude) {
+            location = "Bangalore";
+        } else if (latitudeCheck == hyderabadLatitude && longitudeCheck == hyderabadLongitude) {
+            location = "Hyderabad";
+        } else if (latitudeCheck == puneLatitude && longitudeCheck == puneLongitude){
+            location = "Pune";
+        } else {
+            location = "Out of Office";
+        }
+        return location;
     }
  }

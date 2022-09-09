@@ -49,9 +49,31 @@ public class QAAttendanceController {
 
     @GetMapping("/nameList")
     public List<String> nameList(){
+        QA_Attendance qa_attendance = new QA_Attendance();
+        String loc = qa_attendance.location_check();
+        System.out.println(loc);
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
         String datesCheck = String.valueOf(LocalDate.now());
-        Query query = new Query(Criteria.where("dates").is(datesCheck));
+        criteria.add(Criteria.where("dates").is(datesCheck));
+
+        if(loc == "Bangalore"){
+            String locationCheck = "Bangalore";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        }
+        else if(loc == "Hyderabad"){
+            String locationCheck = "Hyderabad";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        }
+        else if(loc == "Pune"){
+            String locationCheck = "Pune";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        } else {
+            return null;
+        }
+        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
         List<QA_Attendance> attendanceList = mongoOperations.find(query, QA_Attendance.class);
+
         List<String> nameList = new ArrayList<>();
         for(QA_Attendance a : attendanceList ){
             nameList.add(a.getName());
