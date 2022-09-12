@@ -92,9 +92,7 @@ public class QAAttendanceController {
             nameList.add(a.getName());
         }
         Collections.sort(nameList);
-        System.out.println(nameList);
         return nameList;
 
-        }
     }
-
+}

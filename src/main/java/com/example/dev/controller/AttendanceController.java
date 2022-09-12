@@ -45,19 +45,39 @@ public class AttendanceController {
     }
 
     @GetMapping("/nameList")
-    public List<String> nameList(){
-        String datesCheck = String.valueOf(LocalDate.now());
-        Query query = new Query(Criteria.where("dates").is(datesCheck));
-        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
-        List<String> nameList = new ArrayList<>();
-        for(Attendance a : attendanceList ){
-            nameList.add(a.getName());
+    public List<String> fetchNames(@RequestParam(name ="lat") String latitude,@RequestParam(name = "long") String longitude){
+        Attendance attendance = new Attendance(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        String officeBranch = attendance.getOfficeBranch();
 
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+        String presentDate = String.valueOf(LocalDate.now());
+        criteria.add(Criteria.where("dates").is(presentDate));
+
+        if(officeBranch == "Bangalore"){
+            String locationCheck = "Bangalore";
+            criteria.add(Criteria.where("location").is(locationCheck));
         }
-        System.out.println(nameList);
+        else if(officeBranch == "Hyderabad"){
+            String locationCheck = "Hyderabad";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        }
+        else if(officeBranch == "Pune"){
+            String locationCheck = "Pune";
+            criteria.add(Criteria.where("location").is(locationCheck));
+        } else {
+            return null;
+        }
+        query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<com.example.qa.entity.Attendance> attendanceList = mongoOperations.find(query, com.example.qa.entity.Attendance.class);
+
+        List<String> nameList = new ArrayList<>();
+        for(com.example.qa.entity.Attendance a : attendanceList ){
+            nameList.add(a.getName());
+        }
         Collections.sort(nameList);
-        System.out.println(nameList);
         return nameList;
+
     }
 
     @GetMapping("/export/excel")

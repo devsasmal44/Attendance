@@ -24,9 +24,9 @@ public class Attendance {
     private String dates;
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
-    public Attendance(){
-        this.setLatitude(12.9158188);
-        this.setLongitude(77.6353741);
+    public Attendance(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void setName(String name) {
@@ -115,12 +115,31 @@ public class Attendance {
     public String getDates() {
         return dates;
     }
-    public String dateTimeExtractor(long todaysTimestamp){
-        Instant instant = Instant.ofEpochSecond(todaysTimestamp);
-        String result = instant.toString();
-        ZonedDateTime dateTime = ZonedDateTime.parse(result);
-        String dateTimeString = dateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
-        String dateTimeSplitter[] = dateTimeString.split(" ",2);
-        return dateTimeSplitter[0];
+    public String getOfficeBranch(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
+
+        double bangaloreLatitude = 12.91;
+        double bangaloreLongitude = 77.63;
+
+        double hyderabadLatitude = 17.42;
+        double hyderabadLongitude = 78.33;
+
+        double puneLatitude = 18.53;
+        double puneLongitude = 73.87;
+
+        double latitudeCheck = Double.parseDouble(df.format(getLatitude()));
+        double longitudeCheck = Double.parseDouble(df.format(getLongitude()));
+
+        if(latitudeCheck == bangaloreLatitude && longitudeCheck == bangaloreLongitude) {
+            location = "Bangalore";
+        } else if (latitudeCheck == hyderabadLatitude && longitudeCheck == hyderabadLongitude) {
+            location = "Hyderabad";
+        } else if (latitudeCheck == puneLatitude && longitudeCheck == puneLongitude){
+            location = "Pune";
+        } else {
+            location = "Out of Office";
+        }
+        return location;
     }
  }
