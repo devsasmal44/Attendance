@@ -69,10 +69,10 @@ public class AttendanceController {
             return null;
         }
         query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-        List<com.example.qa.entity.Attendance> attendanceList = mongoOperations.find(query, com.example.qa.entity.Attendance.class);
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
 
         List<String> nameList = new ArrayList<>();
-        for(com.example.qa.entity.Attendance a : attendanceList ){
+        for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
         Collections.sort(nameList);
