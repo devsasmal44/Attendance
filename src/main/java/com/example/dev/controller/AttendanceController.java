@@ -75,7 +75,7 @@ public class AttendanceController {
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        Collections.sort(nameList);
+//        Collections.sort(nameList);
         return nameList;
 
     }
