@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/attendance_qa")
@@ -91,8 +92,10 @@ public class QAAttendanceController {
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
-        Collections.sort(nameList);
-        return nameList;
+        List<String> filteredNameList = nameList.stream().distinct().collect(Collectors.toList());
+
+        Collections.sort(filteredNameList);
+        return filteredNameList;
 
     }
 }
