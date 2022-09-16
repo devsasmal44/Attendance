@@ -76,30 +76,14 @@ public class AttendanceController {
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
+        List<String> filteredNameList = nameList.stream().distinct().collect(Collectors.toList());
         try {
-            Collections.sort(nameList);
+            Collections.sort(filteredNameList);
         }
         catch (Exception e) {
             System.out.printf("sorting with null value :"+e.getMessage());
         }
-
-//        int count = nameList.size();
-//        String temp;
-//        Object[] name = nameList.toArray();
-//        for (int i = 0; i < count; i++) {
-//            for (int j = i + 1; j < count; j++) {
-//                if (((String) name[i]).compareTo((String) name[j]) > 0) {
-//                    temp = (String) name[i];
-//                    name[i] = name[j];
-//                    name[j] = temp;
-//                }
-//            }
-//        }
-//        System.out.println("Sorted Arraylist:");
-//        for (int a = 0; a < name.length; a++) {
-//            System.out.println(name[a]);
-//        }
-        return nameList;
+        return filteredNameList;
 
     }
 

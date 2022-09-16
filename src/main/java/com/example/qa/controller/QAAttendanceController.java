@@ -94,8 +94,12 @@ public class QAAttendanceController {
         }
         List<String> filteredNameList = nameList.stream().distinct().collect(Collectors.toList());
 
-        Collections.sort(filteredNameList);
+        try {
+            Collections.sort(filteredNameList);
+        }
+        catch (Exception e) {
+            System.out.printf("sorting with null value :"+e.getMessage());
+        }
         return filteredNameList;
-
     }
 }
