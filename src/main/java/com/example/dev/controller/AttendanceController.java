@@ -83,12 +83,12 @@ public class AttendanceController {
         catch (Exception e) {
             System.out.printf("sorting with null value :"+e.getMessage());
         }
-<<<<<<< HEAD
 
-        return nameList;
-=======
+
+
+
         return filteredNameList;
->>>>>>> 75abfa5e658ded69ecd1bf5d875b359118a35179
+
 
     }
 
