@@ -113,8 +113,8 @@ public class AttendanceExcelExporter {
     public void export(HttpServletResponse response) throws IOException {
         writeHeaderLine();
         writeDataLines();
-
         ServletOutputStream outputStream=response.getOutputStream();
+        response.setBufferSize(1024 * 1024 * 10);
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
