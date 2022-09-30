@@ -76,14 +76,19 @@ public class AttendanceController {
         for(Attendance a : attendanceList ){
             nameList.add(a.getName());
         }
+        List<String> filteredNameList = nameList.stream().distinct().collect(Collectors.toList());
         try {
-            Collections.sort(nameList);
+            Collections.sort(filteredNameList);
         }
         catch (Exception e) {
             System.out.printf("sorting with null value :"+e.getMessage());
         }
+<<<<<<< HEAD
 
         return nameList;
+=======
+        return filteredNameList;
+>>>>>>> 75abfa5e658ded69ecd1bf5d875b359118a35179
 
     }
 
