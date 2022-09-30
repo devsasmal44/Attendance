@@ -35,6 +35,7 @@ public class QrCodeController {
 
     @GetMapping("/uniqueId")
     public String getUniqueId() {
+
         return qrcode.getUniqueId();
     }
 

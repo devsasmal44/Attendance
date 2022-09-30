@@ -121,10 +121,8 @@ public class Attendance {
 
         double bangaloreLatitude = 12.91;
         double bangaloreLongitude = 77.63;
-
         double hyderabadLatitude = 17.42;
         double hyderabadLongitude = 78.33;
-
         double puneLatitude = 18.53;
         double puneLongitude = 73.87;
 
