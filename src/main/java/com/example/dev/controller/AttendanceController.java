@@ -94,6 +94,7 @@ public class AttendanceController {
 
     @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
+        System.out.println(response.getBufferSize());
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
         String headervalue = "attachment; filename=Employee_info.xlsx";
@@ -102,6 +103,5 @@ public class AttendanceController {
         List<Attendance> attendanceList = attendanceRepo.findAll();
         AttendanceExcelExporter exp = new AttendanceExcelExporter(attendanceList);
         exp.export(response);
-
     }
 }
