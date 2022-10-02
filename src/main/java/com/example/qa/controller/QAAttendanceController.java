@@ -50,12 +50,15 @@ public class QAAttendanceController {
     ///names?long=77.63&lat=12.91
     @GetMapping("/qa/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
+        String  todaysDate = String.valueOf(LocalDate.now());
+        String beforeTwoWeekDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusWeeks(2));
+        Query query = new Query(Criteria.where("dates").gte(beforeTwoWeekDate).lte(todaysDate));
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
         String headervalue = "attachment; filename=Employee_info.xlsx";
 
         response.setHeader(headerKey, headervalue);
-        List<Attendance> attendanceList = attendanceRepo.findAll();
         QA_AttendanceExcelExporter exp = new QA_AttendanceExcelExporter(attendanceList);
         exp.export(response);
 

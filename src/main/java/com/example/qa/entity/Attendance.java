@@ -1,5 +1,6 @@
 package com.example.qa.entity;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.RoundingMode;
@@ -20,8 +21,8 @@ public class Attendance {
     public UUID qrString=UUID.fromString("12c1289f-62c3-418d-81d8-531dfbc4581c");
 
     public Attendance(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = 12.91;
+        this.longitude = 77.63;
     }
 
 
