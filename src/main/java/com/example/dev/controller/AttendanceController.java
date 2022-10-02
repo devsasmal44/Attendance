@@ -83,24 +83,21 @@ public class AttendanceController {
         catch (Exception e) {
             System.out.printf("sorting with null value :"+e.getMessage());
         }
-
-
-
-
         return filteredNameList;
-
-
     }
 
     @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
-        System.out.println(response.getBufferSize());
+        String  todaysDate = String.valueOf(LocalDate.now());
+        String beforeTwoWeekDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusWeeks(2));
+        Query query = new Query(Criteria.where("dates").gte(beforeTwoWeekDate).lte(todaysDate));
+
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
         String headervalue = "attachment; filename=Employee_info.xlsx";
 
         response.setHeader(headerKey, headervalue);
-        List<Attendance> attendanceList = attendanceRepo.findAll();
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
         AttendanceExcelExporter exp = new AttendanceExcelExporter(attendanceList);
         exp.export(response);
     }

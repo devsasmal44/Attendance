@@ -110,21 +110,13 @@ public class AttendanceExcelExporter {
         }
     }
 
-    public synchronized void writeToExcel(ServletOutputStream outputStream) {
-        try {
-            workbook.write(outputStream);
-            workbook.close();
-            outputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void export(HttpServletResponse response) throws IOException {
         writeHeaderLine();
         writeDataLines();
+
         ServletOutputStream outputStream=response.getOutputStream();
-        response.setBufferSize(64*1024);
-        writeToExcel(outputStream);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
     }
 }
