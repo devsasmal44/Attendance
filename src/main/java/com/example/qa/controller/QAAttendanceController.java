@@ -51,7 +51,7 @@ public class QAAttendanceController {
     @GetMapping("/qa/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         String  todaysDate = String.valueOf(LocalDate.now());
-        String beforeTwoWeekDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusWeeks(2));
+        String beforeTwoWeekDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusDays(6));
         Query query = new Query(Criteria.where("dates").gte(beforeTwoWeekDate).lte(todaysDate));
         List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
         response.setContentType("application/octet-stream");
