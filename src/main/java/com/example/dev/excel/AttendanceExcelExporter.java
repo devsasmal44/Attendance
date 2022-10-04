@@ -10,6 +10,8 @@ import javax.servlet.ServletOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -85,13 +87,15 @@ public class AttendanceExcelExporter {
             font.setFontHeight(14);
             style.setFont(font);
             style.setAlignment(HorizontalAlignment.CENTER);
-            style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.FLOOR);
+
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowCount++);
 
                 row.createCell(0).setCellValue(atten.getName());
                 row.createCell(1).setCellValue(atten.getEmail());
-                row.createCell(2).setCellValue(atten.getTemperature());
+                row.createCell(2).setCellValue(Float.parseFloat(df.format(atten.getTemperature())));
                 row.createCell(3).setCellValue(atten.getLocation());
                 String dateTimeArray[] = dateTimeExtractor(atten);
                 String dateColumn = dateTimeArray[0] + " " + dateTimeArray[1];
