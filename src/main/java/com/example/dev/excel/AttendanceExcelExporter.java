@@ -48,7 +48,6 @@ public class AttendanceExcelExporter {
         font.setFontHeight(20);
         style.setFont(font);
         style.setAlignment(HorizontalAlignment.CENTER);
-        style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
         createCell(row,0,"Attendance Information",style);
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,4));
         font.setFontHeightInPoints((short)(10));

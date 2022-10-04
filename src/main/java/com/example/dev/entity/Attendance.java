@@ -1,15 +1,9 @@
 package com.example.dev.entity;
 
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Document(collection = "attendance")
@@ -93,7 +87,9 @@ public class Attendance {
     }
 
     public float getTemperature() {
-        return temperature;
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        return Float.parseFloat(df.format(temperature));
     }
 
     public double getLatitude() {
