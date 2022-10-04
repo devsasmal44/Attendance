@@ -32,7 +32,9 @@ public class Attendance {
     }
 
     public void setTemperature(float temperature) {
-        this.temperature = temperature;
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
+        this.temperature = Float.parseFloat(df.format(temperature));
     }
 
     public void setLatitude(double latitude) {
