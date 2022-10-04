@@ -19,54 +19,8 @@ import java.util.List;
 public class AttendanceExcelExporter {
 
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
-    public static Workbook workbook = new XSSFWorkbook();
-
-    public static Sheet sheet = workbook.createSheet();
-
-    public static void createCell(Row row, int columnCount, Object value, CellStyle style) {
-        sheet.autoSizeColumn(columnCount);
-        Cell cell=row.createCell(columnCount);
-        if(value instanceof String) {
-            cell.setCellValue((String) value);
-        }else if(value instanceof String) {
-            cell.setCellValue((String) value);
-        }else if(value instanceof Float) {
-            cell.setCellValue((Float) value);
-        }else if(value instanceof String) {
-            cell.setCellValue((String) value);
-        }else if(value instanceof String){
-            cell.setCellValue((String) value);
-        }
-        cell.setCellStyle(style);
-    }
-
-    private static void writeHeaderLine() {
-        sheet=workbook.createSheet("Attendance");
-
-        Row row = sheet.createRow(0);
-        CellStyle style = workbook.createCellStyle();
-        XSSFFont font= (XSSFFont) workbook.createFont();
-        font.setBold(true);
-        font.setFontHeight(20);
-        style.setFont(font);
-        style.setAlignment(HorizontalAlignment.CENTER);
-        createCell(row,0,"Attendance Information",style);
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,4));
-        font.setFontHeightInPoints((short)(10));
-
-        row=sheet.createRow(1);
-        font.setBold(true);
-        font.setFontHeight(16);
-        style.setFont(font);
-        createCell(row, 0, "Name", style);
-        createCell(row, 1, "Email", style);
-        createCell(row, 2, "Temperature", style);
-        createCell(row,3,"Office Location",style);
-        createCell(row, 4, "Date", style);
-        createCell(row, 5, "Time", style);
-
-    }
+    static String[] HEADERs = { "Name", "Email", "Temperature", "Office Location", "Date", "Time" };
+    static String SHEET = "Attendance Information";
 
     public static String[] dateTimeExtractor(Attendance atten){
         long instantTime=atten.getTimestamp();
@@ -79,10 +33,19 @@ public class AttendanceExcelExporter {
     }
 
     public static ByteArrayInputStream writeDataLines(List<Attendance> attendanceList) {
-        writeHeaderLine();
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
-            int rowIdx = 2;
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+            Sheet sheet = workbook.createSheet(SHEET);
+
+            // Header
+            Row headerRow = sheet.createRow(0);
+
+            for (int col = 0; col < HEADERs.length; col++) {
+                Cell cell = headerRow.createCell(col);
+                cell.setCellValue(HEADERs[col]);
+            }
+
+            int rowIdx = 1;
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowIdx++);
 
