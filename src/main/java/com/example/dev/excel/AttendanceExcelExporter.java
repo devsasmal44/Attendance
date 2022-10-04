@@ -83,9 +83,16 @@ public class AttendanceExcelExporter {
         try ( ByteArrayOutputStream out = new ByteArrayOutputStream();) {
             writeHeaderLine();
 
-            int rowIdx = 1;
+            int rowCount=2;
+
+            CellStyle style=workbook.createCellStyle();
+            XSSFFont font= (XSSFFont) workbook.createFont();
+            font.setFontHeight(14);
+            style.setFont(font);
+            style.setAlignment(HorizontalAlignment.CENTER);
+
             for (Attendance atten : attendanceList) {
-                Row row = sheet.createRow(rowIdx++);
+                Row row = sheet.createRow(rowCount++);
 
                 row.createCell(0).setCellValue(atten.getName());
                 row.createCell(1).setCellValue(atten.getEmail());
