@@ -5,9 +5,14 @@ import com.example.dev.excel.AttendanceExcelExporter;
 import com.example.dev.repository.AttendanceRepo;
 import com.example.dev.services.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +32,7 @@ public class AttendanceController {
 
     @Autowired
     MongoOperations mongoOperations;
+
 
     AttendanceController(AttendanceService attendanceService, AttendanceRepo attendanceRepo){
         this.attendanceService =attendanceService;
@@ -87,11 +93,21 @@ public class AttendanceController {
     }
 
     @GetMapping("/export/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
+    public ResponseEntity<Resource> getFile() {
+        String filename = "employee.xlsx";
+        InputStreamResource file = new InputStreamResource(attendanceService.load());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+                .body(file);
+    }
+    /*public void exportToExcel(HttpServletResponse response) throws IOException {
         String  todaysDate = String.valueOf(LocalDate.now());
-        String beforeTwoWeekDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusDays(6));
-        Query query = new Query(Criteria.where("dates").gte(beforeTwoWeekDate).lte(todaysDate));
+        String beforeTwoDaysDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusDays(6));
+        Query query = new Query(Criteria.where("dates").gte(beforeTwoDaysDate).lte(todaysDate));
         List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
         String headervalue = "attachment; filename=Employee_info.xlsx";
@@ -99,5 +115,17 @@ public class AttendanceController {
         response.setHeader(headerKey, headervalue);
         AttendanceExcelExporter exp = new AttendanceExcelExporter(attendanceList);
         exp.export(response);
-    }
+    }*/
+
+    /*@GetMapping("/excel/download")
+    public ResponseEntity<Resource> getFile() {
+        String filename = "employee.xlsx";
+        InputStreamResource file = new InputStreamResource(attendanceService.load());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+                .body(file);
+    }*/
+
 }
