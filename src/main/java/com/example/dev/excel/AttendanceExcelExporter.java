@@ -95,7 +95,7 @@ public class AttendanceExcelExporter {
 
                 row.createCell(0).setCellValue(atten.getName());
                 row.createCell(1).setCellValue(atten.getEmail());
-                row.createCell(2).setCellValue(Float.parseFloat(df.format(atten.getTemperature())));
+                row.createCell(2).setCellValue(atten.getTemperature());
                 row.createCell(3).setCellValue(atten.getLocation());
                 String dateTimeArray[] = dateTimeExtractor(atten);
                 String dateColumn = dateTimeArray[0] + " " + dateTimeArray[1];
