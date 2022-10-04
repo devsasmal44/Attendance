@@ -24,6 +24,23 @@ public class AttendanceExcelExporter {
     public static Workbook workbook = new XSSFWorkbook();
 
     public static Sheet sheet = workbook.createSheet();
+
+    private static void createCell(Row row, int columnCount, Object value, CellStyle style) {
+        sheet.autoSizeColumn(columnCount);
+        Cell cell=row.createCell(columnCount);
+        if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof Float) {
+            cell.setCellValue((Float) value);
+        }else if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof String){
+            cell.setCellValue((String) value);
+        }
+        cell.setCellStyle(style);
+    }
     private static void writeHeaderLine() {
         sheet=workbook.createSheet("Attendance");
 
