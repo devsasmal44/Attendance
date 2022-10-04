@@ -20,7 +20,7 @@ import java.util.List;
 
 public class AttendanceExcelExporter {
     //public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    public static Workbook workbook = new XSSFWorkbook();
+    public static XSSFWorkbook workbook = new XSSFWorkbook();
 
     public static Sheet sheet;
 
@@ -83,7 +83,6 @@ public class AttendanceExcelExporter {
             int rowCount=2;
 
             CellStyle style=workbook.createCellStyle();
-            style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
             XSSFFont font= (XSSFFont) workbook.createFont();
             font.setFontHeight(14);
             style.setFont(font);
