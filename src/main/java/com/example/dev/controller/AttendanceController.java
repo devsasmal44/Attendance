@@ -1,7 +1,6 @@
 package com.example.dev.controller;
 
 import com.example.dev.entity.Attendance;
-import com.example.dev.excel.AttendanceExcelExporter;
 import com.example.dev.repository.AttendanceRepo;
 import com.example.dev.services.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
@@ -94,7 +91,7 @@ public class AttendanceController {
 
     @GetMapping("/export/excel")
     public ResponseEntity<Resource> exportToExcel() {
-        String filename = "employee.xlsx";
+        String filename = "Attendance Sheet.xlsx";
         InputStreamResource file = new InputStreamResource(attendanceService.load());
 
         return ResponseEntity.ok()
@@ -102,30 +99,4 @@ public class AttendanceController {
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                 .body(file);
     }
-    /*public void exportToExcel(HttpServletResponse response) throws IOException {
-        String  todaysDate = String.valueOf(LocalDate.now());
-        String beforeTwoDaysDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusDays(6));
-        Query query = new Query(Criteria.where("dates").gte(beforeTwoDaysDate).lte(todaysDate));
-        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
-
-        response.setContentType("application/octet-stream");
-        String headerKey = "Content-Disposition";
-        String headervalue = "attachment; filename=Employee_info.xlsx";
-
-        response.setHeader(headerKey, headervalue);
-        AttendanceExcelExporter exp = new AttendanceExcelExporter(attendanceList);
-        exp.export(response);
-    }*/
-
-    /*@GetMapping("/excel/download")
-    public ResponseEntity<Resource> getFile() {
-        String filename = "employee.xlsx";
-        InputStreamResource file = new InputStreamResource(attendanceService.load());
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-                .body(file);
-    }*/
-
 }
