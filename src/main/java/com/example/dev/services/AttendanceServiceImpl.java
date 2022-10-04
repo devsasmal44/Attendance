@@ -42,7 +42,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         Query query = new Query(Criteria.where("dates").gte(beforeTwoWeeksDate).lte(todaysDate));
         List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
 
-        ByteArrayInputStream in = AttendanceExcelExporter.tutorialsToExcel(attendanceList);;
+        ByteArrayInputStream in = AttendanceExcelExporter.writeDataLines(attendanceList);
         return in;
     }
 
