@@ -39,10 +39,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public ByteArrayInputStream load()  {
-        String  todaysDate = String.valueOf(LocalDate.now());
+        /*String  todaysDate = String.valueOf(LocalDate.now());
         String beforeTwoDaysDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusWeeks(2));
-        Query query = new Query(Criteria.where("dates").gte(beforeTwoDaysDate).lte(todaysDate));
-        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+        Query query = new Query(Criteria.where("dates").gte(beforeTwoDaysDate).lte(todaysDate));*/
+        List<Attendance> attendanceList = attendanceRepo.findAll();
 
         ByteArrayInputStream in = NewExcelExport.tutorialsToExcel(attendanceList);;
         return in;
