@@ -85,19 +85,19 @@ public class AttendanceExcelExporter {
             font.setFontHeight(14);
             style.setFont(font);
             style.setAlignment(HorizontalAlignment.CENTER);
-            //style.setDataFormat(workbook.createDataFormat().getFormat("0.0"));
+            style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowCount++);
-
-                row.createCell(0).setCellValue(atten.getName());
-                row.createCell(1).setCellValue(atten.getEmail());
-                row.createCell(2).setCellValue(atten.getTemperature());
-                row.createCell(3).setCellValue(atten.getLocation());
+                int columnCount=0;
+                createCell(row, columnCount++, atten.getName(), style);
+                createCell(row, columnCount++, atten.getEmail(), style);
+                createCell(row, columnCount++, atten.getTemperature(), style);
+                createCell(row, columnCount++, atten.getLocation(), style);
                 String dateTimeArray[] = dateTimeExtractor(atten);
                 String dateColumn = dateTimeArray[0] + " " + dateTimeArray[1];
                 String timeColumn  = dateTimeArray[2];
-                row.createCell(4).setCellValue(dateColumn);
-                row.createCell(5).setCellValue(timeColumn);
+                createCell(row, columnCount++, dateColumn, style);
+                createCell(row, columnCount++, timeColumn, style);
             }
 
             workbook.write(out);
