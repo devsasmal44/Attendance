@@ -83,12 +83,11 @@ public class AttendanceExcelExporter {
             int rowCount=2;
 
             CellStyle style=workbook.createCellStyle();
+            style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
             XSSFFont font= (XSSFFont) workbook.createFont();
             font.setFontHeight(14);
             style.setFont(font);
             style.setAlignment(HorizontalAlignment.CENTER);
-            DecimalFormat df = new DecimalFormat("#.##");
-            df.setRoundingMode(RoundingMode.FLOOR);
 
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowCount++);
