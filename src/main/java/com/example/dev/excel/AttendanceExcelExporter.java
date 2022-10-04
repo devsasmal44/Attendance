@@ -85,7 +85,7 @@ public class AttendanceExcelExporter {
             font.setFontHeight(14);
             style.setFont(font);
             style.setAlignment(HorizontalAlignment.CENTER);
-            style.setDataFormat(workbook.createDataFormat().getFormat("0.0"));
+            //style.setDataFormat(workbook.createDataFormat().getFormat("0.0"));
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowCount++);
 
