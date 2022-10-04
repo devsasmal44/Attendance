@@ -59,7 +59,7 @@ public class QA_AttendanceExcelExporter {
         style.setFont(font);
         style.setAlignment(HorizontalAlignment.CENTER);
         createCell(row,0,"Attendance Information",style);
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,4));
+        sheet.addMergedRegion(new CellRangeAddress(0,0,0,5));
         font.setFontHeightInPoints((short)(10));
 
         row=sheet.createRow(1);

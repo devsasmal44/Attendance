@@ -38,14 +38,22 @@ public class AttendanceExcelExporter {
             Sheet sheet = workbook.createSheet(SHEET);
 
             // Header
-            Row headerRow = sheet.createRow(0);
+            CellStyle style=workbook.createCellStyle();
+            Row mainHeader = sheet.createRow(0);
+            Cell cells = mainHeader.createCell(0);
+            style.setAlignment(HorizontalAlignment.CENTER);
+            cells.setCellStyle(style);
+            cells.setCellValue("Attendance Information") ;
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,5));
+
+            Row headerRow = sheet.createRow(1);
 
             for (int col = 0; col < HEADERs.length; col++) {
                 Cell cell = headerRow.createCell(col);
                 cell.setCellValue(HEADERs[col]);
             }
 
-            int rowIdx = 1;
+            int rowIdx = 2;
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowIdx++);
 
