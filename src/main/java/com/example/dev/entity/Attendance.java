@@ -32,9 +32,7 @@ public class Attendance {
     }
 
     public void setTemperature(float temperature) {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        this.temperature = Float.parseFloat(df.format(temperature));
+        this.temperature = temperature;
     }
 
     public void setLatitude(double latitude) {
