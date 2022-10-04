@@ -93,7 +93,7 @@ public class AttendanceController {
     }
 
     @GetMapping("/export/excel")
-    public ResponseEntity<Resource> getFile() {
+    public ResponseEntity<Resource> exportToExcel() {
         String filename = "employee.xlsx";
         InputStreamResource file = new InputStreamResource(attendanceService.load());
 
