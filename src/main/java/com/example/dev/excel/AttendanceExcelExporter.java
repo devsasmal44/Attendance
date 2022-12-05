@@ -56,9 +56,11 @@ public class AttendanceExcelExporter {
             int rowIdx = 2;
             for (Attendance atten : attendanceList) {
                 Row row = sheet.createRow(rowIdx++);
+                CellStyle styles =workbook.createCellStyle();
 
                 row.createCell(0).setCellValue(atten.getName());
                 row.createCell(1).setCellValue(atten.getEmail());
+                styles.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
                 row.createCell(2).setCellValue(atten.getTemperature());
                 row.createCell(3).setCellValue(atten.getLocation());
                 String dateTimeArray[] = dateTimeExtractor(atten);
