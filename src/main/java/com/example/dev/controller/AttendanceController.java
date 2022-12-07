@@ -1,6 +1,7 @@
 package com.example.dev.controller;
 
 import com.example.dev.entity.Attendance;
+import com.example.dev.excel.AttendanceExcelExporter;
 import com.example.dev.repository.AttendanceRepo;
 import com.example.dev.services.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
@@ -36,6 +39,7 @@ public class AttendanceController {
         this.attendanceRepo = attendanceRepo;
     }
 
+    @CrossOrigin
     @PostMapping("/save")
     public void saveAttendance(@RequestBody Attendance attendance) {
         attendance.setTimestamp(Instant.now().getEpochSecond());
@@ -90,13 +94,18 @@ public class AttendanceController {
     }
 
     @GetMapping("/export/excel")
-    public ResponseEntity<Resource> exportToExcel() {
-        String filename = "Attendance Sheet.xlsx";
-        InputStreamResource file = new InputStreamResource(attendanceService.load());
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        String  todaysDate = String.valueOf(LocalDate.now());
+        String beforeTwoWeekDate = String.valueOf(LocalDate.parse(String.valueOf(todaysDate)).minusDays(6));
+        Query query = new Query(Criteria.where("dates").gte(beforeTwoWeekDate).lte(todaysDate));
+        List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headervalue = "attachment; filename=Employee_info.xlsx";
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-                .body(file);
+        response.setHeader(headerKey, headervalue);
+        AttendanceExcelExporter exp = new AttendanceExcelExporter(attendanceList);
+        exp.export(response);
+
     }
 }

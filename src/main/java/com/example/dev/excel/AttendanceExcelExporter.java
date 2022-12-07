@@ -4,8 +4,11 @@ import com.example.dev.entity.Attendance;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,12 +20,61 @@ import java.util.List;
 
 
 public class AttendanceExcelExporter {
+    private XSSFWorkbook workbook;
+    private XSSFSheet sheet;
 
-    public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = { "Name", "Email", "Temperature", "Office Location", "Date", "Time" };
-    static String SHEET = "Attendance Information";
+    private List<Attendance> attendanceList;
 
-    public static String[] dateTimeExtractor(Attendance atten){
+    public AttendanceExcelExporter(List<Attendance> attendanceList) {
+        this.attendanceList=attendanceList;
+        workbook = new XSSFWorkbook();
+
+    }
+
+    private void createCell(Row row, int columnCount, Object value, CellStyle style) {
+        sheet.autoSizeColumn(columnCount);
+        Cell cell=row.createCell(columnCount);
+        if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof Float) {
+            cell.setCellValue((Float) value);
+        }else if(value instanceof String) {
+            cell.setCellValue((String) value);
+        }else if(value instanceof String){
+            cell.setCellValue((String) value);
+        }
+        cell.setCellStyle(style);
+    }
+    private void writeHeaderLine() {
+        sheet=workbook.createSheet("Attendance");
+
+        Row row = sheet.createRow(0);
+        CellStyle style = workbook.createCellStyle();
+        XSSFFont font=workbook.createFont();
+        font.setBold(true);
+        font.setFontHeight(20);
+        style.setFont(font);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        createCell(row,0,"Attendance Information",style);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,0,5));
+        font.setFontHeightInPoints((short)(10));
+
+        row=sheet.createRow(1);
+        font.setBold(true);
+        font.setFontHeight(16);
+        style.setFont(font);
+        createCell(row, 0, "Name", style);
+        createCell(row, 1, "Email", style);
+        createCell(row, 2, "Temperature", style);
+        createCell(row,3,"Office Location",style);
+        createCell(row, 4, "Date", style);
+        createCell(row, 5, "Time", style);
+
+    }
+
+    private String[] dateTimeExtractor(Attendance atten){
         long instantTime=atten.getTimestamp();
         Instant instant = Instant.ofEpochSecond(instantTime);
         String result = instant.toString();
@@ -32,49 +84,38 @@ public class AttendanceExcelExporter {
         return dateTimeSplitter;
     }
 
-    public static ByteArrayInputStream writeDataLines(List<Attendance> attendanceList) {
+    private void writeDataLines() {
+        int rowCount=2;
 
-        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
-            Sheet sheet = workbook.createSheet(SHEET);
+        CellStyle style=workbook.createCellStyle();
+        XSSFFont font=workbook.createFont();
+        font.setFontHeight(14);
+        style.setFont(font);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
-            // Header
-            CellStyle style=workbook.createCellStyle();
-            Row mainHeader = sheet.createRow(0);
-            Cell cells = mainHeader.createCell(0);
-            style.setAlignment(HorizontalAlignment.CENTER);
-            cells.setCellStyle(style);
-            cells.setCellValue("Attendance Information") ;
-            sheet.addMergedRegion(new CellRangeAddress(0,0,0,5));
-
-            Row headerRow = sheet.createRow(1);
-
-            for (int col = 0; col < HEADERs.length; col++) {
-                Cell cell = headerRow.createCell(col);
-                cell.setCellValue(HEADERs[col]);
-            }
-
-            int rowIdx = 2;
-            for (Attendance atten : attendanceList) {
-                Row row = sheet.createRow(rowIdx++);
-                CellStyle styles =workbook.createCellStyle();
-
-                row.createCell(0).setCellValue(atten.getName());
-                row.createCell(1).setCellValue(atten.getEmail());
-                styles.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
-                row.createCell(2).setCellValue(atten.getTemperature());
-                row.createCell(3).setCellValue(atten.getLocation());
-                String dateTimeArray[] = dateTimeExtractor(atten);
-                String dateColumn = dateTimeArray[0] + " " + dateTimeArray[1];
-                String timeColumn  = dateTimeArray[2];
-                row.createCell(4).setCellValue(dateColumn);
-                row.createCell(5).setCellValue(timeColumn);
-            }
-
-            workbook.write(out);
-            return new ByteArrayInputStream(out.toByteArray());
-        } catch (IOException e) {
-            throw new RuntimeException("fail to import data to Excel file: " + e.getMessage());
+        for(Attendance atten:attendanceList) {
+            Row row=sheet.createRow(rowCount++);
+            int columnCount=0;
+            createCell(row, columnCount++, atten.getName(), style);
+            createCell(row, columnCount++, atten.getEmail(), style);
+            createCell(row, columnCount++, atten.getTemperature(), style);
+            createCell(row, columnCount++, atten.getLocation(), style);
+            String dateTimeArray[] = dateTimeExtractor(atten);
+            String dateColumn = dateTimeArray[0] + " " + dateTimeArray[1];
+            String timeColumn  = dateTimeArray[2];
+            createCell(row, columnCount++, dateColumn, style);
+            createCell(row, columnCount++, timeColumn, style);
         }
     }
 
+    public void export(HttpServletResponse response) throws IOException {
+        writeHeaderLine();
+        writeDataLines();
+
+        ServletOutputStream outputStream=response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
 }

@@ -11,6 +11,4 @@ public interface AttendanceService {
          Attendance saveAttendance(Attendance attendance);
 
          List<Attendance> getAttendance();
-
-         ByteArrayInputStream load();
 }
