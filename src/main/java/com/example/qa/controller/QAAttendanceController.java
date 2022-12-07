@@ -56,7 +56,7 @@ public class QAAttendanceController {
         List<Attendance> attendanceList = mongoOperations.find(query, Attendance.class);
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
-        String headervalue = "attachment; filename=Employee_info.xlsx";
+        String headervalue = "attachment; filename=Attendance List.xlsx";
 
         response.setHeader(headerKey, headervalue);
         QA_AttendanceExcelExporter exp = new QA_AttendanceExcelExporter(attendanceList);
